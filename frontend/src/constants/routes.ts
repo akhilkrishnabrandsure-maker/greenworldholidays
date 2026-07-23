@@ -1,0 +1,15 @@
+export const ROUTES = {
+  HOME: '/',
+  DESTINATIONS: '/destinations',
+  VEHICLES: '/vehicles',
+  SERVICES: '/services',
+  PACKAGES: '/packages',
+  BLOG: '/blog',
+  ABOUT: '/about',
+  CONTACT: '/contact',
+  ADMIN: '/admin',
+  destinationDetail: (slug: string) => `/destinations/${slug}`,
+  vehicleDetail: (slug: string) => `/vehicles/${slug}`,
+  serviceDetail: (slug: string) => `/services/${slug}`,
+  packageDetail: (slug: string) => `/packages/${slug}`,
+};

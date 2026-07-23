@@ -1,0 +1,262 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Enhanced mobile responsiveness and smooth scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Mobile-first responsive typography */
+@layer base {
+  body {
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    line-height: 1.6;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    line-height: 1.2;
+  }
+}
+
+/* Enhanced mobile touch targets */
+@layer components {
+  .mobile-touch-target {
+    min-height: 44px;
+    min-width: 44px;
+  }
+  
+  /* Mobile-optimized cards */
+  .mobile-card {
+    @apply rounded-xl shadow-lg bg-white overflow-hidden;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  
+  .mobile-card:hover {
+    @apply shadow-2xl;
+    transform: translateY(-4px);
+  }
+  
+  /* Mobile-friendly buttons */
+  .mobile-btn {
+    @apply px-6 py-3 rounded-lg font-semibold transition-all duration-300;
+    min-height: 48px;
+    touch-action: manipulation;
+  }
+  
+  .mobile-btn:active {
+    transform: scale(0.98);
+  }
+}
+
+/* Mobile-specific animations */
+@media (max-width: 768px) {
+  .mobile-fade-in {
+    animation: mobileSlideUp 0.6s ease-out;
+  }
+  
+  @keyframes mobileSlideUp {
+    from {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  /* Enhanced mobile scrolling */
+  .mobile-scroll-container {
+    -webkit-overflow-scrolling: touch;
+    scroll-behavior: smooth;
+  }
+}
+
+/* Improved focus states for accessibility */
+@layer utilities {
+  .focus-ring {
+    @apply focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2;
+  }
+}
+
+/* Kerala Photo Montage Styles */
+.photo-montage-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1rem;
+}
+
+@media (max-width: 768px) {
+  .photo-montage-grid {
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+    margin: 0 -0.5rem;
+  }
+}
+
+.montage-item {
+  position: relative;
+  overflow: hidden;
+  border-radius: 0.75rem;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+  transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@media (max-width: 768px) {
+  .montage-item {
+    border-radius: 0.5rem;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+  }
+}
+
+.montage-item:hover {
+  transform: translateY(-8px) scale(1.02);
+  box-shadow: 0 30px 60px rgba(16, 185, 129, 0.3);
+}
+
+@media (max-width: 768px) {
+  .montage-item:hover {
+    transform: translateY(-4px) scale(1.01);
+    box-shadow: 0 15px 35px rgba(16, 185, 129, 0.3);
+  }
+}
+
+.montage-item img {
+  transition: transform 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.montage-item:hover img {
+  transform: scale(1.1);
+}
+
+/* Kerala Green Theme */
+.kerala-green-gradient {
+  background: linear-gradient(135deg, #10b981 0%, #059669 50%, #047857 100%);
+}
+
+.kerala-emerald-gradient {
+  background: linear-gradient(135deg, #34d399 0%, #10b981 50%, #059669 100%);
+}
+
+/* Cultural Heritage Grid */
+.cultural-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 0.75rem;
+}
+
+@media (max-width: 768px) {
+  .cultural-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.5rem;
+    margin: 0 -0.25rem;
+  }
+}
+
+/* Large Feature Item */
+.feature-large {
+  grid-column: span 2;
+  grid-row: span 2;
+}
+
+@media (max-width: 768px) {
+  .feature-large {
+    grid-template-columns: 1fr;
+    grid-column: span 1;
+    grid-row: span 1;
+  }
+}
+
+@media (max-width: 1024px) and (min-width: 769px) {
+  .feature-large {
+    grid-column: span 1;
+    grid-row: span 1;
+  }
+}
+
+/* Enhanced hover effects */
+.hover-lift {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.hover-lift:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+}
+
+@media (max-width: 768px) {
+  .hover-lift:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+  }
+}
+
+/* Smooth scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #1f2937;
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(to bottom, #10b981, #059669);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(to bottom, #059669, #047857);
+}
+
+/* Mobile responsive improvements */
+@media (max-width: 768px) {
+  .hero-title {
+    font-size: 2.5rem;
+    line-height: 1.1;
+  }
+  
+  /* Better mobile spacing */
+  .mobile-padding {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+  
+  /* Mobile text improvements */
+  .mobile-text-sm {
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+  }
+  
+  /* Mobile button improvements */
+  .mobile-btn {
+    padding: 0.75rem 1.5rem;
+    font-size: 0.875rem;
+  }
+}
+
+/* Countdown pop animation */
+@keyframes countPop {
+  0% {
+    transform: scale(0.6);
+    opacity: 0.5;
+  }
+  50% {
+    transform: scale(1.2);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.animate-count-pop {
+  animation: countPop 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}

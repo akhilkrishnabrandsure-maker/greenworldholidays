@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://greenworldholidays.co.in/sitemap.xml
