@@ -19,9 +19,10 @@ export function BookingCTA() {
       </button>
       <button
         onClick={handlePlanTrip}
-        className="bg-transparent border-2 border-white hover:bg-white hover:bg-opacity-10 text-white px-8 py-4 rounded-full font-semibold text-lg transition-all duration-300 hover:scale-105 shadow-lg"
+        className="group relative overflow-hidden bg-transparent border-2 border-white hover:border-emerald-600 text-white px-8 py-4 rounded-full font-semibold text-lg transition-colors duration-700 ease-in-out shadow-lg"
       >
-        Plan Your Trip
+        <span className="absolute inset-0 w-full h-full bg-emerald-600 origin-left scale-x-0 transition-transform duration-700 ease-in-out group-hover:scale-x-100 z-0" />
+        <span className="relative z-10">Plan Your Trip</span>
       </button>
     </div>
   );
