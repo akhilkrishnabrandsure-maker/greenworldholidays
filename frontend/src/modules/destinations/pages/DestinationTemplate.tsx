@@ -13,7 +13,7 @@ import { DestinationGallery } from '../components/DestinationGallery';
 import { DestinationFAQ } from '../components/DestinationFAQ';
 import { DestinationReviews } from '../components/DestinationReviews';
 import { DestinationFleetSection } from '../components/DestinationFleetSection';
-import { HeroBanner } from '@/shared/components/display/HeroBanner';
+import { DestinationHero } from '../components/DestinationHero';
 import { BookingCTA } from '@/shared/components/display/BookingCTA';
 
 interface DestinationTemplateProps {
@@ -63,28 +63,29 @@ export default function DestinationTemplate({
       <JsonLd data={jsonLdData} />
 
       <article className="bg-gradient-to-b from-cream via-white to-cream-dark/30 min-h-screen pb-16">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-6 pb-2">
           {/* Breadcrumbs */}
           <Breadcrumb
-            className="mb-8"
             items={[
               { label: 'Home', href: ROUTES.HOME },
               { label: 'Destinations', href: ROUTES.DESTINATIONS },
               { label: destination.name, href: canonicalUrl },
             ]}
           />
+        </div>
 
-          {/* Hero Banner */}
-          <HeroBanner
-            title={destination.name}
-            subtitle={destination.shortDescription || destination.description}
-            backgroundImage={destination.heroImage || destination.image}
-            badgeText={destination.district}
-            rating={destination.rating}
-            ratingCount={destination.reviewsCount}
-            className="mb-12"
-          />
+        {/* Full-width Premium Hero */}
+        <DestinationHero
+          title={destination.name}
+          subtitle={destination.shortDescription || destination.description}
+          backgroundImage={destination.heroImage || destination.image}
+          badgeText={destination.district}
+          rating={destination.rating}
+          ratingCount={destination.reviewsCount}
+          destinationName={destination.name}
+        />
 
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8">
           {/* Quick Info Grid */}
           <DestinationQuickInfo destination={destination} />
 
