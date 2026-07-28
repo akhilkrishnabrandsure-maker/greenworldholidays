@@ -22,22 +22,7 @@ export function UserMenu() {
   }, []);
 
   if (!isAuthenticated || !user) {
-    return (
-      <div className="hidden md:flex items-center space-x-4">
-        <button 
-          onClick={() => openModal('login')}
-          className="text-emerald-700 hover:text-emerald-900 font-medium transition-colors"
-        >
-          Sign In
-        </button>
-        <button 
-          onClick={() => openModal('register')}
-          className="bg-emerald-600 hover:bg-emerald-700 text-white px-5 py-2 rounded-full font-medium transition-colors shadow-md hover:shadow-lg"
-        >
-          Sign Up
-        </button>
-      </div>
-    );
+    return null;
   }
 
   return (

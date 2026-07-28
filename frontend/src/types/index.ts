@@ -1,7 +1,8 @@
 export interface NavigationItem {
   label: string;
   href: string;
-  icon?: string;
+  icon?: any;
+  children?: NavigationItem[];
 }
 
 export interface BreadcrumbItem {

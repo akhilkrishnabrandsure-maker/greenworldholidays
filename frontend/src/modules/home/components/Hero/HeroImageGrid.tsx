@@ -22,22 +22,19 @@ const HERO_IMAGES = [
 
 export function HeroImageGrid() {
   return (
-    <>
-      <div className="grid grid-cols-1 md:grid-cols-2 h-full w-full">
-        {HERO_IMAGES.map((image, index) => (
-          <div key={index} className="relative overflow-hidden w-full h-full">
-            <AppImage
-              src={image.src}
-              alt={image.alt}
-              fill
-              priority={index < 2}
-              className="w-full h-full object-cover"
-              sizes="(max-width: 768px) 100vw, 50vw"
-            />
-          </div>
-        ))}
-      </div>
-      <div className="absolute inset-0 bg-black bg-opacity-40 z-10" />
-    </>
+    <div className="absolute inset-0 grid grid-cols-2 grid-rows-2 z-0">
+      {HERO_IMAGES.map((image, index) => (
+        <div key={index} className="relative overflow-hidden w-full h-full">
+          <AppImage
+            src={image.src}
+            alt={image.alt}
+            fill
+            priority={index < 2}
+            className="w-full h-full object-cover"
+            sizes="(max-width: 768px) 100vw, 50vw"
+          />
+        </div>
+      ))}
+    </div>
   );
 }

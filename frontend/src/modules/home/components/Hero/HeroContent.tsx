@@ -3,7 +3,7 @@ import { BookingCTA } from './BookingCTA';
 
 export function HeroContent() {
   return (
-    <div className="absolute inset-0 flex items-center justify-center text-center text-white px-4 z-20 mt-16">
+    <div className="absolute inset-0 flex items-center justify-center text-center text-white px-4 z-20">
       <div className="max-w-4xl">
         <p className="text-lg md:text-xl font-medium mb-4 text-emerald-300">
           Welcome to Kerala
