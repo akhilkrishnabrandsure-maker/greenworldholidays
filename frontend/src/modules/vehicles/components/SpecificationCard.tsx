@@ -9,10 +9,13 @@ interface SpecificationCardProps {
 
 export function SpecificationCard({ icon: Icon, label, value }: SpecificationCardProps) {
   return (
-    <div className="flex flex-col items-center justify-center p-3 rounded-xl bg-emerald-50/50">
-      <Icon className="h-5 w-5 text-emerald-600 mb-1" />
-      <span className="text-xs text-gray-500 font-medium">{label}</span>
-      <span className="text-sm font-semibold text-gray-900">{value}</span>
+    <div className="flex flex-col items-center justify-center p-4 rounded-2xl bg-cream-dark/20 border border-gray-50 hover:border-luxury-gold-light/35 transition-colors">
+      <span className="flex items-center justify-center h-10 w-10 rounded-full bg-emerald-50 text-primary-green mb-3">
+        <Icon className="h-5 w-5" />
+      </span>
+      <span className="text-[10px] text-gray-500 font-extrabold uppercase tracking-wider mb-1">{label}</span>
+      <span className="text-sm font-bold text-gray-950 font-sans">{value}</span>
     </div>
   );
 }
+

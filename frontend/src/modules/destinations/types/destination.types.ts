@@ -56,4 +56,5 @@ export interface Destination {
   faqs?: FAQ[];
   reviews?: Review[];
   seo?: SEOData;
+  recommendedVehicleSlugs?: string[];
 }

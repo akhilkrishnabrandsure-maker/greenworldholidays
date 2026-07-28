@@ -138,6 +138,7 @@ export const destinations: Destination[] = [
       keywords: ['Munnar hill station', 'Munnar tour packages', 'Tea gardens Kerala', 'Eravikulam National Park']
     },
     additionalInfo: DEFAULT_ADDITIONAL_INFO,
+    recommendedVehicleSlugs: ['toyota-innova-crysta', 'toyota-innova-hycross', 'force-urbania', 'force-traveller', '45-seater-luxury-coach'],
   },
   {
     id: 2,
@@ -150,6 +151,7 @@ export const destinations: Destination[] = [
     description:
       'Cruise through the serene backwaters of Alleppey and experience the charm of traditional houseboats and lush green landscapes.',
     additionalInfo: DEFAULT_ADDITIONAL_INFO,
+    recommendedVehicleSlugs: ['toyota-innova-crysta', 'toyota-innova-hycross', '45-seater-luxury-coach'],
   },
   {
     id: 3,
@@ -174,6 +176,7 @@ export const destinations: Destination[] = [
     description:
       'Explore the wild beauty of Thekkady with lush forests, exotic wildlife, elephant safaris, spice plantations, and tranquil boat rides on Periyar Lake',
     additionalInfo: DEFAULT_ADDITIONAL_INFO,
+    recommendedVehicleSlugs: ['toyota-innova-crysta', 'force-urbania', 'force-traveller', '45-seater-luxury-coach'],
   },
   {
     id: 5,
@@ -270,5 +273,6 @@ export const destinations: Destination[] = [
     description:
       'Escape to the rolling meadows, pine forests, and misty hills of Vagamon—a serene hill station perfect for nature lovers and adventure seekers.',
     additionalInfo: DEFAULT_ADDITIONAL_INFO,
+    recommendedVehicleSlugs: ['toyota-innova-crysta', 'force-urbania', '45-seater-luxury-coach'],
   },
 ];

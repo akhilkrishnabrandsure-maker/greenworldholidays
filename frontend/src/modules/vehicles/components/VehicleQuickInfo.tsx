@@ -9,7 +9,7 @@ interface VehicleQuickInfoProps {
 
 export function VehicleQuickInfo({ vehicle }: VehicleQuickInfoProps) {
   return (
-    <div className="bg-white rounded-2xl p-6 shadow-md border border-emerald-100 mb-10 grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
+    <div className="bg-white rounded-3xl p-6 md:p-8 shadow-premium border border-gray-100/60 mb-12 grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
       <SpecificationCard 
         icon={Users} 
         label="Seat Capacity" 

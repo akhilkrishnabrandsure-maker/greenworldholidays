@@ -277,5 +277,32 @@ export const vehicles: Vehicle[] = [
     shortDescription: 'The pinnacle of road luxury with 45 seating capacity.',
     pricing: { rate: '₹13,000', period: 'per day' },
     rating: 4.8
+  },
+  {
+    id: '117',
+    slug: '45-seater-luxury-coach',
+    name: '45 Seater Luxury Coach',
+    category: 'Bus',
+    image: 'https://res.cloudinary.com/dyup8ivlh/image/upload/v1754556532/volvo-banner-1_l0fptk.webp',
+    heroImage: 'https://res.cloudinary.com/dyup8ivlh/image/upload/v1754556532/volvo-banner-1_l0fptk.webp',
+    seatCapacity: 45,
+    luggageCapacity: 45,
+    fuelType: 'Diesel',
+    transmission: 'Automatic',
+    airConditioning: true,
+    shortDescription: 'Comfortable Group Travel',
+    pricing: { rate: 'On Request', period: '' },
+    rating: 4.9,
+    highlights: [
+      'Ideal for Corporate Tours, School Trips & Group Packages'
+    ],
+    features: [
+      { name: '45 Seats', icon: 'users' },
+      { name: 'Fully Air Conditioned', icon: 'wind' },
+      { name: 'Pushback Recliner Seats', icon: 'corner-down-right' },
+      { name: 'Premium Audio System', icon: 'music' },
+      { name: 'LED TV / Entertainment', icon: 'tv' },
+      { name: 'Charging Ports', icon: 'battery-charging' }
+    ]
   }
 ];

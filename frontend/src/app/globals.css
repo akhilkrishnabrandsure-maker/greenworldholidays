@@ -1,26 +1,60 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #fbfbf9;
+  --foreground: #1c2421;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
+  --font-sans: var(--font-outfit), var(--font-geist-sans), sans-serif;
+  --font-serif: var(--font-playfair-display), Georgia, serif;
   --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  
+  --color-primary-green: #044b36;
+  --color-primary-green-dark: #023626;
+  --color-primary-green-light: #0d6e52;
+  --color-luxury-gold: #c5a880;
+  --color-luxury-gold-dark: #b89047;
+  --color-luxury-gold-light: #dfcaa8;
+  --color-cream: #fbfbf9;
+  --color-cream-dark: #f5f4f0;
+  
+  --radius-3xl: 1.5rem;
+  --radius-4xl: 2rem;
+  --radius-5xl: 2.5rem;
+  
+  --shadow-premium: 0 12px 40px -12px rgba(4, 75, 54, 0.08), 0 2px 20px -6px rgba(4, 75, 54, 0.04);
+  --shadow-premium-lg: 0 20px 50px -15px rgba(4, 75, 54, 0.12), 0 4px 24px -8px rgba(4, 75, 54, 0.06);
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans), sans-serif;
+  -webkit-font-smoothing: antialiased;
 }
+
+/* Custom premium design system utilities */
+.glass-effect {
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+}
+
+.glass-badge {
+  background: rgba(197, 168, 128, 0.15);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(197, 168, 128, 0.25);
+}
+
+.glass-badge-green {
+  background: rgba(4, 75, 54, 0.08);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(4, 75, 54, 0.15);
+}
+
