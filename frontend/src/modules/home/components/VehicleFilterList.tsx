@@ -1,7 +1,8 @@
 'use client';
 
 import React, { useState } from 'react';
-import { Car, Users, Fuel, Shield, Star } from 'lucide-react';
+import { Car, Users, Fuel, Shield, Star, ArrowRight } from 'lucide-react';
+import Link from 'next/link';
 import { Vehicle } from '@/modules/vehicles/types/vehicle.types';
 import { AppImage } from '@/shared/components/display/AppImage';
 
@@ -14,8 +15,8 @@ const CATEGORIES = ['All', 'MPV', 'Sedan', 'Van', 'Bus'];
 export function VehicleFilterList({ initialVehicles }: VehicleFilterListProps) {
   const [selectedCategory, setSelectedCategory] = useState('All');
 
-  const filteredVehicles = selectedCategory === 'All' 
-    ? initialVehicles.slice(0, 6) 
+  const filteredVehicles = selectedCategory === 'All'
+    ? initialVehicles.slice(0, 6)
     : initialVehicles.filter(v => v.category === selectedCategory).slice(0, 6);
 
   const handleBookVehicle = (vehicleName: string) => {
@@ -32,18 +33,17 @@ export function VehicleFilterList({ initialVehicles }: VehicleFilterListProps) {
         <p className="text-lg md:text-xl text-gray-600 max-w-3xl mx-auto mb-8 md:mb-12">
           Choose from our diverse range of well-maintained vehicles for your perfect journey
         </p>
-        
+
         {/* Category Filter */}
         <div className="flex flex-wrap justify-center gap-2 md:gap-4 mb-8 md:mb-12">
           {CATEGORIES.map((category) => (
             <button
               key={category}
               onClick={() => setSelectedCategory(category)}
-              className={`px-4 md:px-6 py-2 md:py-3 rounded-full text-sm md:text-base font-medium transition-all duration-300 ${
-                selectedCategory === category
+              className={`px-4 md:px-6 py-2 md:py-3 rounded-full text-sm md:text-base font-medium transition-all duration-300 ${selectedCategory === category
                   ? 'bg-emerald-600 text-white shadow-lg'
                   : 'bg-white text-gray-700 hover:bg-emerald-50 hover:text-emerald-600'
-              }`}
+                }`}
             >
               {category}
             </button>
@@ -51,7 +51,7 @@ export function VehicleFilterList({ initialVehicles }: VehicleFilterListProps) {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 mb-12 md:mb-16">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 mb-6 md:mb-8">
         {filteredVehicles.map((vehicle) => (
           <div key={vehicle.id} className="bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden group flex flex-col">
             <div className="relative h-48 md:h-56 w-full overflow-hidden">
@@ -72,12 +72,12 @@ export function VehicleFilterList({ initialVehicles }: VehicleFilterListProps) {
                 {vehicle.category}
               </div>
             </div>
-            
+
             <div className="p-4 md:p-6 flex flex-col flex-1">
               <div className="flex justify-between items-start mb-3 md:mb-4">
                 <h3 className="text-lg md:text-xl font-bold text-gray-900">{vehicle.name}</h3>
               </div>
-              
+
               {/* Vehicle Specs */}
               <div className="grid grid-cols-2 gap-3 md:gap-4 mb-4 md:mb-6">
                 <div className="flex items-center space-x-2">
@@ -101,7 +101,7 @@ export function VehicleFilterList({ initialVehicles }: VehicleFilterListProps) {
                   <span className="text-sm text-gray-600">{vehicle.luggageCapacity} Bags</span>
                 </div>
               </div>
-              
+
               <button
                 onClick={() => handleBookVehicle(vehicle.name)}
                 className="mt-auto w-full bg-emerald-600 hover:bg-emerald-700 text-white py-2 md:py-3 px-4 md:px-6 rounded-xl font-semibold transition-all duration-300 hover:scale-105 shadow-lg text-sm md:text-base"
@@ -111,6 +111,18 @@ export function VehicleFilterList({ initialVehicles }: VehicleFilterListProps) {
             </div>
           </div>
         ))}
+      </div>
+
+      {/* View All Vehicles CTA */}
+      <div className="text-center mb-16 md:mb-24 flex flex-col items-center">
+        <div className="w-48 h-px bg-gray-400/30 mb-4"></div>
+        <Link
+          href="/vehicles"
+          className="inline-flex items-center justify-center space-x-2 bg-emerald-600 hover:bg-emerald-700 text-white py-2 md:py-3 px-4 md:px-6 rounded-xl font-semibold transition-all duration-300 hover:scale-105 shadow-lg text-sm md:text-base w-full sm:w-auto"
+        >
+          <span>View All Vehicles</span>
+          <ArrowRight className="w-4 h-4 md:w-5 md:h-5" />
+        </Link>
       </div>
 
       {/* Fleet Manager CTA */}

@@ -1,18 +1,19 @@
 import React from 'react';
 import { ROUTES } from '@/constants/routes';
-import { Breadcrumb } from '@/shared/components/navigation/Breadcrumb';
 import { JsonLd } from '@/shared/components/seo/JsonLd';
 import { generateBreadcrumbSchema, generateVehicleSchema } from '@/lib/seo';
 import { Vehicle } from '../types/vehicle.types';
-import { VehicleQuickInfo } from '../components/VehicleQuickInfo';
-import { VehicleOverview } from '../components/VehicleOverview';
-import { VehicleAmenities } from '../components/VehicleAmenities';
-import { VehicleGallery } from '../components/VehicleGallery';
+
+// Luxury Component Imports
+import { VehicleHeroSection } from '../components/VehicleHeroSection';
+import { VehicleQuickHighlights } from '../components/VehicleQuickHighlights';
+import { VehicleEditorialGallery } from '../components/VehicleEditorialGallery';
+import { VehicleInfoSection } from '../components/VehicleInfoSection';
+import { VehiclePromiseSection } from '../components/VehiclePromiseSection';
+import { VehiclePopularRoutes } from '../components/VehiclePopularRoutes';
 import { VehicleFAQ } from '../components/VehicleFAQ';
-import { VehicleReviews } from '../components/VehicleReviews';
+import { VehicleFinalCTA } from '../components/VehicleFinalCTA';
 import { RelatedVehicles } from '../components/RelatedVehicles';
-import { HeroBanner } from '@/shared/components/display/HeroBanner';
-import { BookingCTA } from '@/shared/components/display/BookingCTA';
 
 interface VehicleTemplateProps {
   vehicle: Vehicle;
@@ -27,7 +28,7 @@ export default function VehicleTemplate({
 
   const breadcrumbSchema = generateBreadcrumbSchema([
     { name: 'Home', url: ROUTES.HOME },
-    { name: 'Vehicles', url: ROUTES.VEHICLES },
+    { name: 'Fleet', url: ROUTES.VEHICLES },
     { name: vehicle.name, url: canonicalUrl },
   ]);
 
@@ -57,75 +58,47 @@ export default function VehicleTemplate({
     jsonLdData.push(faqSchema as unknown as Record<string, unknown>);
   }
 
-  // Create a specialized whatsapp message for vehicles
-  const whatsappMessage = `Hi! I'm interested in renting the ${vehicle.name}. Could you please provide more details about availability and pricing?`;
-  const whatsappUrl = `https://wa.me/918075438808?text=${encodeURIComponent(whatsappMessage)}`;
+  // Filter related vehicles by same category or default alternatives
+  const sameCategoryVehicles = relatedVehicles.filter(
+    (v) => v.id !== vehicle.id && v.category === vehicle.category
+  );
+  const displayRelated = sameCategoryVehicles.length > 0 ? sameCategoryVehicles : relatedVehicles.filter((v) => v.id !== vehicle.id);
 
   return (
     <>
       <JsonLd data={jsonLdData} />
 
-      <article className="bg-gradient-to-b from-cream via-white to-cream-dark/30 min-h-screen pb-16">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
-          {/* Breadcrumbs */}
-          <Breadcrumb
-            className="mb-8"
-            items={[
-              { label: 'Home', href: ROUTES.HOME },
-              { label: 'Vehicles', href: ROUTES.VEHICLES },
-              { label: vehicle.name, href: canonicalUrl },
-            ]}
-          />
+      <article className="bg-[#FDFBF7] min-h-screen text-gray-900 selection:bg-emerald-800 selection:text-white">
+        {/* 1. Immersive Hero Section with Floating Glassmorphic Booking Widget */}
+        <VehicleHeroSection vehicle={vehicle} />
 
-          {/* Hero Banner */}
-          <HeroBanner
-            title={vehicle.name}
-            subtitle={vehicle.shortDescription}
-            backgroundImage={vehicle.heroImage || vehicle.image}
-            badgeText={vehicle.category}
-            rating={vehicle.rating}
-            ratingLabel="Google Rating"
-            className="mb-12"
-          />
+        {/* 2. Quick Highlights Bar */}
+        <VehicleQuickHighlights vehicle={vehicle} />
 
-          {/* Quick Info Grid */}
-          <VehicleQuickInfo vehicle={vehicle} />
+        {/* 3. Editorial Photo Gallery & Lightbox */}
+        <VehicleEditorialGallery
+          gallery={vehicle.gallery}
+          vehicleName={vehicle.name}
+          defaultImage={vehicle.image}
+        />
 
-          {/* Detailed Overview & Highlights */}
-          <VehicleOverview vehicle={vehicle} />
+        {/* 4. Editorial Vehicle Overview & Technical Specification Cards */}
+        <VehicleInfoSection vehicle={vehicle} />
 
-          {/* Amenities & Features */}
-          <VehicleAmenities vehicle={vehicle} />
+        {/* 5. The Green World Promise (Luxury Guarantees) */}
+        <VehiclePromiseSection />
 
-          {/* Gallery */}
-          <VehicleGallery
-            gallery={vehicle.gallery}
-            vehicleName={vehicle.name}
-          />
+        {/* 6. Perfect Destinations for This Vehicle */}
+        <VehiclePopularRoutes vehicle={vehicle} />
 
-          {/* Reviews */}
-          <VehicleReviews
-            reviews={vehicle.reviews}
-            vehicleName={vehicle.name}
-          />
+        {/* 7. Minimal FAQ Accordion */}
+        <VehicleFAQ faqs={vehicle.faqs} vehicleName={vehicle.name} />
 
-          {/* FAQ */}
-          <VehicleFAQ
-            faqs={vehicle.faqs}
-            vehicleName={vehicle.name}
-          />
+        {/* 8. Deep Emerald Final CTA Banner */}
+        <VehicleFinalCTA vehicle={vehicle} />
 
-          {/* Reusable Booking / Enquiry CTA */}
-          <BookingCTA
-            title={`Book the ${vehicle.name} Today`}
-            description={`Our travel experts will ensure a comfortable and hassle-free journey with our well-maintained ${vehicle.category.toLowerCase()} fleet.`}
-            whatsappUrl={whatsappUrl}
-            className="my-16"
-          />
-
-          {/* Related Vehicles */}
-          <RelatedVehicles vehicles={relatedVehicles} />
-        </div>
+        {/* 9. Related / Alternative Vehicles */}
+        <RelatedVehicles vehicles={displayRelated} title={`Alternative ${vehicle.category} Vehicles`} />
       </article>
     </>
   );

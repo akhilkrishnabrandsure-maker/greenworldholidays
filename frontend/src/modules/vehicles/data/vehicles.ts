@@ -24,18 +24,52 @@ export const vehicles: Vehicle[] = [
     category: 'MPV',
     image: 'https://res.cloudinary.com/dyup8ivlh/image/upload/v1754556513/crysta_a61qcb.jpg',
     heroImage: 'https://res.cloudinary.com/dyup8ivlh/image/upload/v1754556513/crysta_a61qcb.jpg',
+    heroBackdrop: 'https://images.unsplash.com/photo-1544644181-1484b3fdfc62?auto=format&fit=crop&w=2000&q=80',
     seatCapacity: 7,
     luggageCapacity: 5,
-    fuelType: 'Diesel',
+    fuelType: 'Diesel (BS6)',
     transmission: 'Automatic',
     airConditioning: true,
-    shortDescription: 'The ultimate premium MPV offering unparalleled comfort and reliability for long journeys.',
-    overview: 'The Toyota Innova Crysta is renowned for its premium comfort, spacious interiors, and reliable performance. Ideal for families and corporate groups, it ensures a smooth and luxurious journey across Kerala\'s varied terrains, from city roads to hill stations.',
+    engine: '2.4L GD Turbo',
+    safetyRating: '5 Star Safety (NCAP)',
+    airbags: '7 Airbags (SRS)',
+    shortDescription: 'Luxury Family & Executive Transportation',
+    overview: 'The Toyota Innova Crysta is more than just an MPV; it is the benchmark for luxury travel in Kerala. Whether navigating the winding mist of Munnar or cruising along the coastal highways of Kochi, the Crysta ensures every passenger enjoys the ride with unparalleled comfort.',
+    tags: ['Airport Transfer', 'Wedding', 'Family Trip', 'Hill Station', 'Corporate', 'Kerala Tours'],
+    specifications: {
+      vehicle: {
+        'Transmission': 'Automatic (6-Speed)',
+        'Fuel Type': 'Diesel (BS6 Compliant)',
+        'Engine': '2.4L GD Turbo Diesel',
+        'Seating': '7 Seats (2+2+3 Recliners)',
+      },
+      comfort: {
+        'Air Conditioning': 'Dual-Zone Auto Climate',
+        'Entertainment': 'Touchscreen + Bluetooth/USB',
+        'Seats': 'Plush Captain Leather Seats',
+        'Charging': 'USB & 12V Ports in All Rows',
+      },
+      safety: {
+        'Airbags': '7 SRS Airbags',
+        'Safety Rating': '5-Star NCAP',
+        'Braking': 'ABS with EBD & Brake Assist',
+        'Chassis': 'GOA High-Rigidity Frame',
+      }
+    },
+    destinations: [
+      { name: 'Munnar', distance: '125 km', duration: '3.5 hrs', image: 'https://res.cloudinary.com/dyup8ivlh/image/upload/v1754556519/munnar_img_nezzuf.jpg', slug: 'munnar' },
+      { name: 'Alleppey', distance: '85 km', duration: '2.2 hrs', image: 'https://res.cloudinary.com/dyup8ivlh/image/upload/v1754556508/houseboat_pvwt7k.jpg', slug: 'alleppey' },
+      { name: 'Thekkady', distance: '145 km', duration: '4 hrs', image: 'https://images.unsplash.com/photo-1596402184320-417e7178b2cd?auto=format&fit=crop&w=800&q=80', slug: 'thekkady' }
+    ],
     highlights: [
-      'Premium plush seating with ample legroom',
-      'Advanced climate control system',
-      'Superior suspension for a smooth ride',
-      'High safety standards with multiple airbags'
+      '8+1 Seats',
+      'Dual AC',
+      'Large Luggage',
+      'Professional Driver',
+      'Airport Pickup',
+      '24×7 Support',
+      'Automatic',
+      'Sanitized Daily'
     ],
     features: [
       { name: '7 Seats', icon: 'users' },
@@ -51,18 +85,21 @@ export const vehicles: Vehicle[] = [
       { name: 'Reading Lights', icon: 'sun' }
     ],
     gallery: [
-      { url: 'https://res.cloudinary.com/dyup8ivlh/image/upload/v1754556513/crysta_a61qcb.jpg', alt: 'Toyota Innova Crysta Exterior', caption: 'Premium Exterior Design' }
+      { url: 'https://res.cloudinary.com/dyup8ivlh/image/upload/v1754556513/crysta_a61qcb.jpg', alt: 'Toyota Innova Crysta Exterior', caption: 'Exterior View', category: 'Exterior' },
+      { url: 'https://images.unsplash.com/photo-1549399542-7e3f8b79c341?auto=format&fit=crop&w=1000&q=80', alt: 'Toyota Innova Crysta Interior Cabin', caption: 'Luxury Leather Seats', category: 'Interior' },
+      { url: 'https://images.unsplash.com/photo-1563720223185-11003d516935?auto=format&fit=crop&w=1000&q=80', alt: 'Dashboard & Cockpit', caption: 'Premium Dashboard', category: 'Dashboard' },
+      { url: 'https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=1000&q=80', alt: 'Spacious Luggage Boot', caption: 'Ample Luggage Space', category: 'Luggage Space' }
     ],
     faqs: [
-      { question: 'Is the vehicle air-conditioned?', answer: 'Yes, the Toyota Innova Crysta comes with a powerful dual-zone air conditioning system for maximum comfort.' },
-      { question: 'Are toll and parking charges included in the price?', answer: 'Toll and parking charges are generally excluded from the base rental price and are charged as per actuals.' },
-      { question: 'Is there a limit on kilometers?', answer: 'Our standard packages include a specific kilometer limit per day. Extra kilometers will be charged at a standard rate.' }
+      { question: 'Is fuel included in the daily rental price?', answer: 'Yes, our premium packages include all fuel costs for the agreed itinerary. There are no hidden surcharges based on mileage within the standard tour route.' },
+      { question: 'Can the driver multiday tour across Kerala?', answer: 'Yes! All our drivers are experienced, multi-lingual professionals certified for state-wide travel across all districts and hill stations.' },
+      { question: 'What happens if my flight is delayed?', answer: 'Our 24x7 operations team monitors flight schedules in real-time. Your chauffeur will be waiting at Cochin Airport (COK) regardless of flight delays.' }
     ],
     reviews: [
-      { id: 'rev-1', author: 'Arun Kumar', location: 'Bangalore, India', rating: 5, date: '1 month ago', comment: 'The Innova Crysta we booked was in excellent condition. The seats were very comfortable, and the driver was professional.' },
-      { id: 'rev-2', author: 'Sarah Jenkins', location: 'London, UK', rating: 5, date: '3 months ago', comment: 'Perfect vehicle for our family trip to Munnar. Spacious enough for all our luggage and the ride was extremely smooth.' }
+      { id: 'rev-1', author: 'Arun Kumar', location: 'Bangalore, India', rating: 5, date: '1 month ago', comment: 'The Innova Crysta we booked was in pristine condition. The seats were very comfortable, and the driver was extremely polite and punctual.' },
+      { id: 'rev-2', author: 'Sarah Jenkins', location: 'London, UK', rating: 5, date: '3 months ago', comment: 'Perfect vehicle for our family trip to Munnar. Spacious enough for all our luggage and the ride was smooth on hill roads.' }
     ],
-    pricing: { rate: '₹3,000', period: 'per day' },
+    pricing: { rate: '₹3,500', period: 'per day' },
     rating: 4.9,
     seo: {
       title: 'Rent Toyota Innova Crysta in Kerala | Green World Holidays',

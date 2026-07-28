@@ -17,6 +17,21 @@ export interface GalleryImage {
   url: string;
   alt: string;
   caption?: string;
+  category?: 'Exterior' | 'Interior' | 'Dashboard' | 'Rear Seats' | 'Luggage Space' | string;
+}
+
+export interface DestinationRoute {
+  name: string;
+  image: string;
+  distance: string;
+  duration: string;
+  slug?: string;
+}
+
+export interface VehicleSpecifications {
+  vehicle?: Record<string, string>;
+  comfort?: Record<string, string>;
+  safety?: Record<string, string>;
 }
 
 export interface FAQ {
@@ -48,6 +63,7 @@ export interface Vehicle {
   
   image: string;
   heroImage: string;
+  heroBackdrop?: string;
   gallery?: GalleryImage[];
 
   seatCapacity: number;
@@ -56,6 +72,9 @@ export interface Vehicle {
   fuelType?: string;
   transmission?: string;
   airConditioning?: boolean;
+  engine?: string;
+  safetyRating?: string;
+  airbags?: string;
 
   shortDescription: string;
   overview?: string;
@@ -63,6 +82,10 @@ export interface Vehicle {
   highlights?: string[];
   features?: Feature[];
   amenities?: Amenity[];
+  tags?: string[];
+
+  specifications?: VehicleSpecifications;
+  destinations?: DestinationRoute[];
 
   includedServices?: string[];
   idealFor?: string[];
