@@ -36,12 +36,12 @@ export function RelatedVehicles({ vehicles, title = "Explore Alternative Options
           </Link>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
           {vehicles.slice(0, 3).map((vehicle) => (
             <Link
               key={vehicle.id}
               href={ROUTES.vehicleDetail(vehicle.slug)}
-              className="bg-white rounded-3xl overflow-hidden shadow-[0_10px_30px_rgba(0,0,0,0.05)] border border-gray-100 group hover:shadow-2xl transition-all duration-500 flex flex-col"
+              className="bg-white rounded-[24px] overflow-hidden shadow-[0_10px_30px_rgba(0,0,0,0.05)] border border-gray-100 group hover:shadow-2xl hover:-translate-y-2 transition-all duration-500 flex flex-col"
             >
               <div className="relative h-56 w-full overflow-hidden bg-gray-100">
                 <AppImage

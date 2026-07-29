@@ -58,11 +58,11 @@ export default function VehicleTemplate({
     jsonLdData.push(faqSchema as unknown as Record<string, unknown>);
   }
 
-  // Filter related vehicles by same category or default alternatives
-  const sameCategoryVehicles = relatedVehicles.filter(
-    (v) => v.id !== vehicle.id && v.category === vehicle.category
-  );
-  const displayRelated = sameCategoryVehicles.length > 0 ? sameCategoryVehicles : relatedVehicles.filter((v) => v.id !== vehicle.id);
+  // Filter related vehicles by same category, filling remaining slots with others
+  const otherVehicles = relatedVehicles.filter((v) => v.id !== vehicle.id);
+  const sameCategoryVehicles = otherVehicles.filter((v) => v.category === vehicle.category);
+  const differentCategoryVehicles = otherVehicles.filter((v) => v.category !== vehicle.category);
+  const displayRelated = [...sameCategoryVehicles, ...differentCategoryVehicles].slice(0, 3);
 
   return (
     <>
@@ -91,14 +91,14 @@ export default function VehicleTemplate({
         {/* 6. Perfect Destinations for This Vehicle */}
         <VehiclePopularRoutes vehicle={vehicle} />
 
-        {/* 7. Minimal FAQ Accordion */}
+        {/* 7. Fleet Recommendations */}
+        <RelatedVehicles vehicles={displayRelated} title="Alternative Vehicles" />
+
+        {/* 8. Minimal FAQ Accordion */}
         <VehicleFAQ faqs={vehicle.faqs} vehicleName={vehicle.name} />
 
-        {/* 8. Deep Emerald Final CTA Banner */}
+        {/* 9. Deep Emerald Final CTA Banner */}
         <VehicleFinalCTA vehicle={vehicle} />
-
-        {/* 9. Related / Alternative Vehicles */}
-        <RelatedVehicles vehicles={displayRelated} title={`Alternative ${vehicle.category} Vehicles`} />
       </article>
     </>
   );
