@@ -7,7 +7,7 @@ export async function VehiclePreview() {
 
   return (
     <section id="vehicles" className="py-16 md:py-24 bg-gradient-to-b from-emerald-50 via-emerald-100 to-emerald-200">
-      <VehicleFilterList initialVehicles={vehicles} />
+      <VehicleFilterList initialVehicles={vehicles} limit={6} />
     </section>
   );
 }

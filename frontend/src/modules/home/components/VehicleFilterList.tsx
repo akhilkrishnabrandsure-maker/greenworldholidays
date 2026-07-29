@@ -1,35 +1,43 @@
 'use client';
 
 import React, { useState } from 'react';
-import { Car, Users, Fuel, Shield, Star, ArrowRight } from 'lucide-react';
+import { Car, Users, Fuel, Shield, Star } from 'lucide-react';
 import Link from 'next/link';
 import { Vehicle } from '@/modules/vehicles/types/vehicle.types';
 import { AppImage } from '@/shared/components/display/AppImage';
+import { ROUTES } from '@/constants/routes';
 
 interface VehicleFilterListProps {
   initialVehicles: Vehicle[];
+  limit?: number;
+  hideViewAll?: boolean;
+  isMainPage?: boolean;
 }
 
 const CATEGORIES = ['All', 'MPV', 'Sedan', 'Van', 'Bus'];
 
-export function VehicleFilterList({ initialVehicles }: VehicleFilterListProps) {
+export function VehicleFilterList({ initialVehicles, limit, hideViewAll = false, isMainPage = false }: VehicleFilterListProps) {
   const [selectedCategory, setSelectedCategory] = useState('All');
 
   const filteredVehicles = selectedCategory === 'All'
-    ? initialVehicles.slice(0, 6)
-    : initialVehicles.filter(v => v.category === selectedCategory).slice(0, 6);
+    ? (limit ? initialVehicles.slice(0, limit) : initialVehicles)
+    : (limit 
+        ? initialVehicles.filter(v => v.category === selectedCategory).slice(0, limit) 
+        : initialVehicles.filter(v => v.category === selectedCategory));
 
   const handleBookVehicle = (vehicleName: string) => {
     const message = `Hi! I'm interested in booking the ${vehicleName}. Could you please provide more details about availability and pricing?`;
     window.open(`https://wa.me/918075438808?text=${encodeURIComponent(message)}`, '_blank');
   };
 
+  const TitleTag = isMainPage ? 'h1' : 'h2';
+
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div className="text-center mb-12 md:mb-16">
-        <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-4 md:mb-6">
+        <TitleTag className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-4 md:mb-6">
           Our Vehicle Fleet
-        </h2>
+        </TitleTag>
         <p className="text-lg md:text-xl text-gray-600 max-w-3xl mx-auto mb-8 md:mb-12">
           Choose from our diverse range of well-maintained vehicles for your perfect journey
         </p>
@@ -54,7 +62,7 @@ export function VehicleFilterList({ initialVehicles }: VehicleFilterListProps) {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 mb-6 md:mb-8">
         {filteredVehicles.map((vehicle) => (
           <div key={vehicle.id} className="bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden group flex flex-col">
-            <div className="relative h-48 md:h-56 w-full overflow-hidden">
+            <Link href={ROUTES.vehicleDetail(vehicle.slug)} className="relative h-48 md:h-56 w-full overflow-hidden block">
               <AppImage
                 src={vehicle.image}
                 alt={vehicle.name}
@@ -71,11 +79,13 @@ export function VehicleFilterList({ initialVehicles }: VehicleFilterListProps) {
               <div className="absolute top-4 left-4 bg-emerald-600 text-white px-2 md:px-3 py-1 rounded-full text-xs md:text-sm font-medium z-10">
                 {vehicle.category}
               </div>
-            </div>
+            </Link>
 
             <div className="p-4 md:p-6 flex flex-col flex-1">
               <div className="flex justify-between items-start mb-3 md:mb-4">
-                <h3 className="text-lg md:text-xl font-bold text-gray-900">{vehicle.name}</h3>
+                <Link href={ROUTES.vehicleDetail(vehicle.slug)} className="hover:text-emerald-600 transition-colors">
+                  <h3 className="text-lg md:text-xl font-bold text-gray-900 hover:text-emerald-600 transition-colors">{vehicle.name}</h3>
+                </Link>
               </div>
 
               {/* Vehicle Specs */}
@@ -114,16 +124,16 @@ export function VehicleFilterList({ initialVehicles }: VehicleFilterListProps) {
       </div>
 
       {/* View All Vehicles CTA */}
-      <div className="text-center mb-16 md:mb-24 flex flex-col items-center">
-        <div className="w-48 h-px bg-gray-400/30 mb-4"></div>
-        <Link
-          href="/vehicles"
-          className="inline-flex items-center justify-center space-x-2 bg-emerald-600 hover:bg-emerald-700 text-white py-2 md:py-3 px-4 md:px-6 rounded-xl font-semibold transition-all duration-300 hover:scale-105 shadow-lg text-sm md:text-base w-full sm:w-auto"
-        >
-          <span>View All Vehicles</span>
-          <ArrowRight className="w-4 h-4 md:w-5 md:h-5" />
-        </Link>
-      </div>
+      {!hideViewAll && (
+        <div className="text-center mt-12 mb-16 md:mb-24">
+          <Link
+            href="/vehicles"
+            className="inline-block bg-emerald-600 hover:bg-emerald-700 text-white px-8 py-3 rounded-xl font-semibold transition-all duration-300 hover:scale-105 shadow-lg"
+          >
+            View All Vehicles
+          </Link>
+        </div>
+      )}
 
       {/* Fleet Manager CTA */}
       <div className="bg-gradient-to-r from-emerald-600 to-emerald-700 rounded-2xl md:rounded-3xl p-6 md:p-12 text-center text-white">

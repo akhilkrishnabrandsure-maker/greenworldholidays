@@ -167,6 +167,25 @@ export function generateVehicleSchema(vehicle: VehicleSchemaInput) {
   };
 }
 
+export function generateVehicleListSchema(vehicles: VehicleSchemaInput[]) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    "name": "Premium Vehicle Fleet in Kerala",
+    "itemListElement": vehicles.map((vehicle, index) => ({
+      "@type": "ListItem",
+      "position": index + 1,
+      "item": {
+        "@type": "Service",
+        "name": vehicle.name,
+        "description": vehicle.description,
+        "image": vehicle.image,
+        "url": `${siteUrl}/vehicles/${vehicle.slug}`,
+      },
+    })),
+  };
+}
+
 export interface ServiceSchemaInput {
   name: string;
   description: string;
