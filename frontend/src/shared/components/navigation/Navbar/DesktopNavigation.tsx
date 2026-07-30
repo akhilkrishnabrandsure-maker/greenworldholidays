@@ -23,7 +23,13 @@ export function DesktopNavigation() {
               onMouseLeave={() => hasChildren && setActiveDropdown(null)}
             >
               <Link
-                href={item.href}
+                href={hasChildren ? '#' : item.href}
+                onClick={(e) => {
+                  if (hasChildren) {
+                    e.preventDefault();
+                    setActiveDropdown(activeDropdown === item.label ? null : item.label);
+                  }
+                }}
                 className={`flex items-center px-3 py-2 text-base font-medium transition-colors hover:text-emerald-600 hover:bg-emerald-50 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-400 focus:ring-offset-2 focus:ring-offset-white ${
                   isActive ? 'text-emerald-600 bg-emerald-50' : 'text-gray-700'
                 }`}

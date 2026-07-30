@@ -3,8 +3,74 @@ import { TourPackage } from '../types/package.types';
 export const mockPackages: TourPackage[] = [
   {
     id: 'pkg-001',
-    slug: 'kerala-honeymoon-package',
-    name: 'Romantic Kerala Honeymoon Package',
+    slug: 'kerala-tour-packages',
+    name: 'Kerala Tour Packages',
+    category: 'Kerala Tour Packages',
+    duration: '6 Days / 5 Nights',
+    heroImage: 'https://images.unsplash.com/photo-1593693397690-362cb96667a0?auto=format&fit=crop&w=1920&q=80',
+    shortDescription: 'A perfect 6 days vacation covering the best of Kerala: hills, wildlife, backwaters, and beaches.',
+    overview: 'Create beautiful memories on this 6-day Kerala tour. This itinerary is carefully crafted to offer a relaxed pace suitable for all age groups. From the cool climate of Munnar to the elephant rides in Thekkady, the houseboat cruise in Alleppey, and relaxing at Marari beach.',
+    highlights: [
+      'Premium hotels with swimming pools',
+      'Elephant ride and martial arts show in Thekkady',
+      'Spacious family vehicles like Innova Crysta',
+      'Relaxing beach day'
+    ],
+    pricing: {
+      startingPrice: '₹16,999',
+      priceNote: 'per person (min 4 pax)'
+    },
+    coveredDestinations: ['munnar', 'thekkady', 'alappuzha-backwaters-houseboat', 'marari-beach'],
+    availableVehicles: ['toyota-innova-crysta', 'maruti-ertiga', 'force-urbania'],
+  },
+  {
+    id: 'pkg-002',
+    slug: 'customized-tour-packages',
+    name: 'Customized Tour Packages',
+    category: 'Customized Tour Packages',
+    duration: 'Flexible',
+    heroImage: 'https://images.unsplash.com/photo-1518182170546-076616fdacaf?auto=format&fit=crop&w=1920&q=80',
+    shortDescription: 'Tailor-made itineraries designed exclusively for your preferences, time, and budget.',
+    overview: 'We understand that every traveler is unique. Our customized tour packages allow you to choose your destinations, stay options, and activities, ensuring a fully personalized Kerala experience.',
+    highlights: [
+      'Flexible itinerary planning',
+      'Choice of premium accommodations',
+      'Dedicated travel consultant',
+      'Private chauffeur-driven vehicle'
+    ],
+    pricing: {
+      startingPrice: 'On Request',
+      priceNote: 'based on customization'
+    },
+    coveredDestinations: ['munnar', 'alappuzha-backwaters-houseboat', 'thekkady'],
+    availableVehicles: ['toyota-innova-crysta', 'maruti-swift-dzire'],
+  },
+  {
+    id: 'pkg-003',
+    slug: 'group-tour-packages',
+    name: 'Group Tour Packages',
+    category: 'Group Tour Packages',
+    duration: '5 Days / 4 Nights',
+    heroImage: 'https://images.unsplash.com/photo-1526772662000-3f88f10405ff?auto=format&fit=crop&w=1920&q=80',
+    shortDescription: 'Specially curated group packages ideal for corporate outings, large families, and student trips.',
+    overview: 'Traveling in a group is always fun! We offer comprehensive group tour packages that include large premium coaches, group accommodations, and specialized team activities across Kerala\'s best destinations.',
+    highlights: [
+      'Spacious AC coaches and mini-buses',
+      'Group dining arrangements',
+      'Team building activities on request',
+      'Dedicated tour manager'
+    ],
+    pricing: {
+      startingPrice: '₹12,500',
+      priceNote: 'per person for large groups'
+    },
+    coveredDestinations: ['munnar', 'thekkady'],
+    availableVehicles: ['force-urbania', 'toyota-innova-crysta'],
+  },
+  {
+    id: 'pkg-004',
+    slug: 'honeymoon-packages',
+    name: 'Honeymoon Packages',
     category: 'Honeymoon Packages',
     duration: '5 Days / 4 Nights',
     heroImage: 'https://images.unsplash.com/photo-1602216056096-3b40cc0c9944?auto=format&fit=crop&w=1920&q=80',
@@ -106,27 +172,5 @@ export const mockPackages: TourPackage[] = [
       description: 'Book the best 5 Days Kerala Honeymoon Package covering Munnar, Thekkady, and Alleppey Houseboat with private AC cab and premium stays.',
       keywords: ['kerala honeymoon package', 'munnar honeymoon', 'alleppey houseboat', 'kerala tour']
     }
-  },
-  {
-    id: 'pkg-002',
-    slug: 'kerala-family-tour-package',
-    name: 'Essence of Kerala Family Tour',
-    category: 'Family Packages',
-    duration: '6 Days / 5 Nights',
-    heroImage: 'https://images.unsplash.com/photo-1593693397690-362cb96667a0?auto=format&fit=crop&w=1920&q=80',
-    shortDescription: 'A perfect 6 days family vacation covering the best of Kerala: hills, wildlife, backwaters, and beaches.',
-    overview: 'Create beautiful memories with your family on this 6-day Kerala tour. This itinerary is carefully crafted to offer a relaxed pace suitable for all age groups. From the cool climate of Munnar to the elephant rides in Thekkady, the houseboat cruise in Alleppey, and relaxing at Marari beach.',
-    highlights: [
-      'Child-friendly hotels with swimming pools',
-      'Elephant ride and martial arts show in Thekkady',
-      'Spacious family vehicles like Innova Crysta',
-      'Relaxing beach day'
-    ],
-    pricing: {
-      startingPrice: '₹16,999',
-      priceNote: 'per person (min 4 pax)'
-    },
-    coveredDestinations: ['munnar', 'thekkady', 'alappuzha-backwaters-houseboat', 'marari-beach'],
-    availableVehicles: ['toyota-innova-crysta', 'maruti-ertiga', 'force-urbania'],
   }
 ];

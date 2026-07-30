@@ -50,7 +50,7 @@ export function FloatingWhatsAppButton() {
   };
 
   const cleanedPhone = COMPANY_INFO.phone.replace(/[^0-9]/g, '');
-  const message = "Hi Green World Holidays, I would like to know more about your travel services. Please assist me.";
+  const message = "Hi Green World Holidays, I would like to know more about your tour packages. Please assist me.";
   const encodedMessage = encodeURIComponent(message);
   const whatsappUrl = `https://wa.me/${cleanedPhone}?text=${encodedMessage}`;
 

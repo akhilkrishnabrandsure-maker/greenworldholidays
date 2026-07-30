@@ -5,10 +5,10 @@ import { Users, Map, HeartHandshake, Settings } from 'lucide-react';
 export const MAIN_NAVIGATION: NavigationItem[] = [
   { label: 'Home', href: ROUTES.HOME },
   { label: 'Destinations', href: ROUTES.DESTINATIONS },
-  { label: 'Vehicles', href: ROUTES.VEHICLES },
+  { label: 'Fleet', href: ROUTES.VEHICLES },
   { 
-    label: 'Services', 
-    href: ROUTES.SERVICES,
+    label: 'Packages', 
+    href: ROUTES.PACKAGES,
     children: [
       { label: 'Kerala Tour Packages', href: ROUTES.packageDetail('kerala-tour-packages'), icon: Map },
       { label: 'Customized Tour Packages', href: ROUTES.packageDetail('customized-tour-packages'), icon: Settings },

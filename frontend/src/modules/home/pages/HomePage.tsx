@@ -1,7 +1,6 @@
 import React from 'react';
 import { Hero } from '../components/Hero/Hero';
 import { WhyKerala } from '../components/WhyKerala';
-import { ServicesPreview } from '../components/ServicesPreview';
 import { DestinationPreview } from '../components/DestinationPreview';
 import { VehiclePreview } from '../components/VehiclePreview';
 import { Testimonials } from '../components/Testimonials';
@@ -17,7 +16,6 @@ export default async function HomePage() {
       <JsonLd data={businessSchema} />
       <Hero />
       <WhyKerala />
-      <ServicesPreview />
       <DestinationPreview />
       <VehiclePreview />
       <Testimonials />

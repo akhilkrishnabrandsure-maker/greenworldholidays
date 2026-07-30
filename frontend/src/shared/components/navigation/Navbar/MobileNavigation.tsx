@@ -32,8 +32,15 @@ export function MobileNavigation({ isOpen, onClose }: Props) {
             <div key={item.label} className="flex flex-col">
               <div className="flex items-center justify-between">
                 <Link
-                  href={item.href}
-                  onClick={hasChildren ? undefined : onClose}
+                  href={hasChildren ? '#' : item.href}
+                  onClick={(e) => {
+                    if (hasChildren) {
+                      e.preventDefault();
+                      toggleExpand(item.label, e);
+                    } else {
+                      onClose();
+                    }
+                  }}
                   className={`flex-1 px-4 py-3 text-base font-medium rounded-lg text-left transition-all duration-200 ${
                     isActive && !hasChildren ? 'text-emerald-600 bg-emerald-50' : 'text-emerald-800 hover:text-emerald-600 hover:bg-emerald-50'
                   }`}

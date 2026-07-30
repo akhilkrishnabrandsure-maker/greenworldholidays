@@ -20,7 +20,7 @@ export default async function VehiclesListPage() {
           }))),
           generateBreadcrumbSchema([
             { name: 'Home', url: ROUTES.HOME },
-            { name: 'Vehicles', url: ROUTES.VEHICLES },
+            { name: 'Fleet', url: ROUTES.VEHICLES },
           ]),
         ]}
       />

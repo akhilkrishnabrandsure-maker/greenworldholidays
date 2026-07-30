@@ -40,12 +40,12 @@ export async function PackageTemplate({ slug }: PackageTemplateProps) {
   const coveredDestinations = tourPackage.coveredDestinations 
     ? await Promise.all(tourPackage.coveredDestinations.map(ds => destinationRepository.getBySlug(ds)))
     : [];
-  const validDestinations = coveredDestinations.filter(Boolean) as any[];
+  const validDestinations = coveredDestinations.filter(Boolean) as NonNullable<Awaited<ReturnType<typeof destinationRepository.getBySlug>>>[];
 
   const availableVehicles = tourPackage.availableVehicles 
     ? await Promise.all(tourPackage.availableVehicles.map(vs => vehicleRepository.getVehicleBySlug(vs)))
     : [];
-  const validVehicles = availableVehicles.filter(Boolean) as any[];
+  const validVehicles = availableVehicles.filter(Boolean) as NonNullable<Awaited<ReturnType<typeof vehicleRepository.getVehicleBySlug>>>[];
 
   // SEO schemas
   const packageSchema = generatePackageSchema({
@@ -58,7 +58,7 @@ export async function PackageTemplate({ slug }: PackageTemplateProps) {
 
   const breadcrumbSchema = generateBreadcrumbSchema([
     { name: 'Home', url: '/' },
-    { name: 'Packages', url: '/#packages' },
+    { name: 'Packages', url: '/packages' },
     { name: tourPackage.name, url: `/packages/${tourPackage.slug}` }
   ]);
 
@@ -91,7 +91,7 @@ export async function PackageTemplate({ slug }: PackageTemplateProps) {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-8 relative z-20">
         <Breadcrumb
           items={[
-            { label: 'Packages', href: '/#packages' },
+            { label: 'Packages', href: '/packages' },
             { label: tourPackage.name, href: '#' }
           ]}
         />

@@ -23,7 +23,7 @@ export function Footer() {
               />
             </div>
             <p className="text-gray-400 mb-6 max-w-md">
-              Your complete travel and transportation partner. We provide exceptional holiday experiences and reliable car rental services to make every journey memorable and convenient.
+              Your complete travel and transportation partner. We provide exceptional holiday experiences and reliable car rental to make every journey memorable and convenient.
             </p>
             <SocialLinks />
           </div>

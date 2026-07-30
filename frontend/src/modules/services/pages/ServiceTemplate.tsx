@@ -38,7 +38,7 @@ export async function ServiceTemplate({ slug }: ServiceTemplateProps) {
     ? await Promise.all(service.availableVehicles.map(slug => vehicleRepository.getVehicleBySlug(slug)))
     : [];
   
-  const validVehicles = availableVehicles.filter(Boolean) as any[];
+  const validVehicles = availableVehicles.filter(Boolean) as NonNullable<Awaited<ReturnType<typeof vehicleRepository.getVehicleBySlug>>>[];
 
   // SEO schemas
   const serviceSchema = generateServiceSchema({
