@@ -22,7 +22,7 @@ const HERO_IMAGES = [
 
 export function HeroImageGrid() {
   return (
-    <div className="absolute inset-0 grid grid-cols-2 grid-rows-2 z-0">
+    <div className="absolute inset-0 grid grid-cols-1 md:grid-cols-2 grid-rows-4 md:grid-rows-2 z-0">
       {HERO_IMAGES.map((image, index) => (
         <div key={index} className="relative overflow-hidden w-full h-full">
           <AppImage

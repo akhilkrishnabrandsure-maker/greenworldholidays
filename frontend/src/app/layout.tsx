@@ -32,6 +32,7 @@ export const metadata: Metadata = {
     "Premium travel packages, vehicle rentals, and destination management in Kerala and South India.",
 };
 import { Providers } from "@/contexts/Providers";
+import { FloatingEnquiryPopup } from "@/shared/components/common/FloatingEnquiryPopup";
 
 export default function RootLayout({
   children,
@@ -45,6 +46,7 @@ export default function RootLayout({
     >
       <body className="min-h-full flex flex-col">
         <Providers>{children}</Providers>
+        <FloatingEnquiryPopup />
       </body>
     </html>
   );
