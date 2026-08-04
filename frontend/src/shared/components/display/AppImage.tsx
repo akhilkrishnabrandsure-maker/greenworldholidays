@@ -1,5 +1,5 @@
 import Image, { ImageProps } from 'next/image';
 
-export function AppImage(props: ImageProps) {
-  return <Image {...props} />;
+export function AppImage({ alt, ...props }: ImageProps) {
+  return <Image alt={alt || ''} {...props} />;
 }

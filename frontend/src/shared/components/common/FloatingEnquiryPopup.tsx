@@ -62,7 +62,7 @@ export function FloatingEnquiryPopup() {
     }
   }, []);
 
-  const startReminderTimer = useCallback((delay = POPUP_REMINDER_MS) => {
+  const startReminderTimer = useCallback(function scheduleReminder(delay = POPUP_REMINDER_MS) {
     if (reminderTimeoutRef.current) clearTimeout(reminderTimeoutRef.current);
     if (hasContacted()) return;
 
@@ -72,7 +72,7 @@ export function FloatingEnquiryPopup() {
       // Don't interrupt if the user is typing
       const activeTag = document.activeElement?.tagName?.toLowerCase();
       if (activeTag === 'input' || activeTag === 'textarea') {
-        startReminderTimer(10000); // Defer for 10 seconds
+        scheduleReminder(10000); // Defer for 10 seconds
         return;
       }
 

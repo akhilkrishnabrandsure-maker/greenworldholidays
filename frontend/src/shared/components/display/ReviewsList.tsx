@@ -45,7 +45,7 @@ export function ReviewsList({ reviews, className = '' }: ReviewsListProps) {
             </div>
             
             <p className="text-gray-700 text-sm leading-relaxed mb-6 font-sans italic">
-              "{review.comment}"
+              &quot;{review.comment}&quot;
             </p>
           </div>
 

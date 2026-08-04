@@ -91,7 +91,7 @@ export function PremiumCard({
               href={actionHref}
               target="_blank"
               rel="noopener noreferrer"
-              onClick={onActionClick as any}
+              onClick={onActionClick as React.MouseEventHandler<HTMLAnchorElement>}
               className="w-full bg-primary-green hover:bg-primary-green-dark text-white py-3 px-4 rounded-xl font-bold text-sm transition-all duration-300 flex items-center justify-center gap-2 shadow-md hover:shadow-lg group"
             >
               <span>{actionText}</span>
