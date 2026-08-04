@@ -14,8 +14,7 @@ const ENQUIRY_OPTIONS = [
   'Vehicle Rental'
 ];
 
-const POPUP_EXPIRY_MS = 24 * 60 * 60 * 1000; // 24 hours
-const STORAGE_KEY = 'gwh_enquiry_popup_state';
+const POPUP_REMINDER_MS = 45000; // 45 seconds
 const CONTACTED_KEY = 'gwh_user_contacted';
 
 export function FloatingEnquiryPopup() {
@@ -29,13 +28,14 @@ export function FloatingEnquiryPopup() {
   
   const pathname = usePathname();
   const popupRef = useRef<HTMLDivElement>(null);
+  
   const triggerTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const reminderTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   // Context-awareness based on pathname
   useEffect(() => {
     if (!pathname) return;
     
-    // Convert pathname to decoded string
     const decodedPath = decodeURIComponent(pathname);
     
     if (decodedPath.includes('/vehicles')) {
@@ -47,107 +47,127 @@ export function FloatingEnquiryPopup() {
       const parts = decodedPath.split('/');
       const destSlug = parts[parts.indexOf('destinations') + 1];
       if (destSlug) {
-        // Convert slug to Title Case
         const formattedDest = destSlug.split('-').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
         setDestination(formattedDest);
       }
     }
   }, [pathname]);
 
-  const closePopup = useCallback(() => {
+  const hasContacted = useCallback(() => {
+    if (typeof window === 'undefined') return false;
+    try {
+      return sessionStorage.getItem(CONTACTED_KEY) === 'true';
+    } catch {
+      return false;
+    }
+  }, []);
+
+  const startReminderTimer = useCallback((delay = POPUP_REMINDER_MS) => {
+    if (reminderTimeoutRef.current) clearTimeout(reminderTimeoutRef.current);
+    if (hasContacted()) return;
+
+    reminderTimeoutRef.current = setTimeout(() => {
+      if (hasContacted()) return;
+
+      // Don't interrupt if the user is typing
+      const activeTag = document.activeElement?.tagName?.toLowerCase();
+      if (activeTag === 'input' || activeTag === 'textarea') {
+        startReminderTimer(10000); // Defer for 10 seconds
+        return;
+      }
+
+      setIsOpen(true);
+    }, delay);
+  }, [hasContacted]);
+
+  const closePopup = useCallback((wasContacted = false) => {
     setIsClosing(true);
     setTimeout(() => {
       setIsOpen(false);
       setIsClosing(false);
-    }, 300); // match animation duration
-    
-    // Save to local storage
-    try {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify({
-        timestamp: Date.now()
-      }));
-    } catch (e) {
-      console.error('Failed to save popup state', e);
-    }
-  }, []);
-
-  // Check if we should show the popup
-  const shouldShowPopup = useCallback(() => {
-    if (hasTriggered) return false;
-    
-    try {
-      // Check if already contacted
-      if (localStorage.getItem(CONTACTED_KEY)) return false;
       
-      // Check if dismissed recently
-      const savedState = localStorage.getItem(STORAGE_KEY);
-      if (savedState) {
-        const { timestamp } = JSON.parse(savedState);
-        if (Date.now() - timestamp < POPUP_EXPIRY_MS) {
-          return false;
-        }
+      // Start reminder if they didn't contact
+      if (!wasContacted && !hasContacted()) {
+        startReminderTimer();
       }
-    } catch (e) {
-      // Ignore localStorage errors
-    }
-    
-    return true;
-  }, [hasTriggered]);
+    }, 300); // match animation duration
+  }, [startReminderTimer, hasContacted]);
 
-  const triggerPopup = useCallback(() => {
-    if (!shouldShowPopup()) return;
+  const markAsContacted = () => {
+    try {
+      sessionStorage.setItem(CONTACTED_KEY, 'true');
+    } catch (e) {}
+    
+    // Stop all timers permanently for this session
+    if (reminderTimeoutRef.current) clearTimeout(reminderTimeoutRef.current);
+    if (triggerTimeoutRef.current) clearTimeout(triggerTimeoutRef.current);
+  };
+
+  const triggerInitialPopup = useCallback(() => {
+    if (hasContacted() || hasTriggered) return;
     setHasTriggered(true);
     setIsOpen(true);
-  }, [shouldShowPopup]);
+  }, [hasContacted, hasTriggered]);
 
-  // Scroll and Time triggers
+  // Initial Triggers
   useEffect(() => {
-    if (hasTriggered) return;
+    if (hasTriggered || hasContacted()) return;
 
     // Time trigger for desktop (20s)
-    const isMobile = window.innerWidth < 768;
+    const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
     if (!isMobile) {
       triggerTimeoutRef.current = setTimeout(() => {
-        triggerPopup();
+        triggerInitialPopup();
       }, 20000);
     }
 
     // Scroll trigger
     const handleScroll = () => {
-      if (hasTriggered) return;
+      if (hasTriggered || hasContacted()) return;
       
       const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
       const scrollPos = window.scrollY;
       
-      if (scrollHeight <= 0) return; // Prevent division by zero
+      if (scrollHeight <= 0) return;
       
       const scrollPercent = (scrollPos / scrollHeight) * 100;
       const targetPercent = window.innerWidth < 768 ? 50 : 40;
       
       if (scrollPercent >= targetPercent) {
-        triggerPopup();
+        triggerInitialPopup();
       }
     };
 
     window.addEventListener('scroll', handleScroll, { passive: true });
     
+    // Check once immediately on mount
+    handleScroll();
+
     return () => {
       window.removeEventListener('scroll', handleScroll);
       if (triggerTimeoutRef.current) clearTimeout(triggerTimeoutRef.current);
     };
-  }, [hasTriggered, triggerPopup]);
+  }, [hasTriggered, triggerInitialPopup, hasContacted]);
+
+  // Cleanup timers on unmount
+  useEffect(() => {
+    return () => {
+      if (reminderTimeoutRef.current) clearTimeout(reminderTimeoutRef.current);
+      if (triggerTimeoutRef.current) clearTimeout(triggerTimeoutRef.current);
+    };
+  }, []);
 
   // Escape key and click outside
   useEffect(() => {
     if (!isOpen) return;
 
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') closePopup();
+      if (e.key === 'Escape') closePopup(false);
     };
 
     const handleClickOutside = (e: MouseEvent) => {
       if (popupRef.current && !popupRef.current.contains(e.target as Node)) {
-        closePopup();
+        closePopup(false);
       }
     };
 
@@ -165,12 +185,6 @@ export function FloatingEnquiryPopup() {
       document.body.style.overflow = 'unset';
     };
   }, [isOpen, closePopup]);
-
-  const markAsContacted = () => {
-    try {
-      localStorage.setItem(CONTACTED_KEY, 'true');
-    } catch (e) {}
-  };
 
   const handleWhatsApp = () => {
     let message = `Hi Green World Holidays,\n\n`;
@@ -190,19 +204,19 @@ export function FloatingEnquiryPopup() {
     markAsContacted();
     const whatsappUrl = `https://wa.me/918075438808?text=${encodeURIComponent(message)}`;
     window.open(whatsappUrl, '_blank');
-    closePopup();
+    closePopup(true);
   };
 
   const handleCall = () => {
     markAsContacted();
     window.location.href = 'tel:+918075438808';
-    closePopup();
+    closePopup(true);
   };
 
   if (!isOpen && !isClosing) return null;
 
   return (
-    <div className={`fixed inset-0 z-[100] flex items-end md:items-center justify-center p-0 md:p-4 bg-black/40 backdrop-blur-sm transition-opacity duration-300 ${isClosing ? 'opacity-0' : 'opacity-100'}`}>
+    <div className={`fixed inset-0 z-[9999] flex items-end md:items-center justify-center p-0 md:p-4 bg-black/40 backdrop-blur-sm transition-opacity duration-300 ${isClosing ? 'opacity-0' : 'opacity-100'}`}>
       <div 
         ref={popupRef}
         className={`bg-[#FDFBF7] w-full md:w-[700px] md:rounded-[32px] rounded-t-[32px] md:rounded-b-[32px] shadow-2xl flex flex-col md:flex-row overflow-hidden relative transform transition-transform duration-300 ${isClosing ? 'translate-y-full md:scale-95' : 'translate-y-0 md:scale-100'}`}
@@ -235,7 +249,7 @@ export function FloatingEnquiryPopup() {
               </p>
             </div>
             <button 
-              onClick={closePopup}
+              onClick={() => closePopup(false)}
               className="p-2 -mt-2 -mr-2 text-gray-400 hover:text-emerald-900 hover:bg-emerald-50 rounded-full transition-colors"
               aria-label="Close popup"
             >
