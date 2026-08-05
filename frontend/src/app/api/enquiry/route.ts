@@ -1,19 +1,24 @@
 import { NextResponse } from 'next/server';
 
-// Simple in-memory rate limiting
-// Note: In a true serverless environment, this resets per instance.
-// For robust rate limiting, use Redis (e.g., Upstash) in production.
 interface RateLimitData {
   count: number;
   resetAt: number;
 }
-const rateLimitMap = new Map<string, RateLimitData>();
 
+const rateLimitMap = new Map<string, RateLimitData>();
 const RATE_LIMIT_MAX = 5;
 const RATE_LIMIT_WINDOW_MS = 10 * 60 * 1000; // 10 minutes
 
 function checkRateLimit(ip: string): boolean {
   const now = Date.now();
+  
+  // Inline cleanup of expired entries
+  rateLimitMap.forEach((value, key) => {
+    if (now > value.resetAt) {
+      rateLimitMap.delete(key);
+    }
+  });
+
   const record = rateLimitMap.get(ip);
 
   if (!record || now > record.resetAt) {
@@ -28,16 +33,6 @@ function checkRateLimit(ip: string): boolean {
   record.count += 1;
   return true;
 }
-
-// Clean up stale rate limit entries periodically
-setInterval(() => {
-  const now = Date.now();
-  rateLimitMap.forEach((value, key) => {
-    if (now > value.resetAt) {
-      rateLimitMap.delete(key);
-    }
-  });
-}, RATE_LIMIT_WINDOW_MS);
 
 export async function POST(request: Request) {
   try {
@@ -73,7 +68,7 @@ export async function POST(request: Request) {
 
     const scriptUrl = process.env.GOOGLE_SCRIPT_URL;
     
-    const isValidUrl = (url?: string) => {
+    const isValidUrl = (url?: string): url is string => {
       if (!url) return false;
       if (url.includes('<I_WILL_PROVIDE') || url.includes('YOUR_') || url.includes('PLACEHOLDER')) return false;
       try {
@@ -114,6 +109,7 @@ export async function POST(request: Request) {
 
     // Forward to Google Apps Script with 1 retry
     while (attempt < 2 && !isSuccess) {
+      attempt++;
       try {
         const response = await fetch(scriptUrl, {
           method: 'POST',
@@ -137,24 +133,24 @@ export async function POST(request: Request) {
               lastError = new Error(jsonRes.message || 'Apps Script returned success: false');
             }
           } catch (e) {
-            // It didn't return JSON. If it returned an HTML page (like a Google Login), it's a failure.
+            // Check if HTML error response (e.g. permission/login error)
             if (responseBodyText.includes('<html') || responseBodyText.includes('<body')) {
               isSuccess = false;
               lastError = new Error('Apps Script returned HTML instead of JSON. Ensure Web App is deployed as "Anyone".');
             } else {
-              // Maybe it just returned text "Success" or something.
+              // Non-JSON plain text success response
               isSuccess = true;
             }
           }
         } else {
           lastError = new Error(`HTTP Error: ${response.status} ${response.statusText}`);
-          attempt++;
-          if (attempt < 2) await new Promise(r => setTimeout(r, 1000));
         }
       } catch (err: any) {
         lastError = err;
-        attempt++;
-        if (attempt < 2) await new Promise(r => setTimeout(r, 1000));
+      }
+
+      if (!isSuccess && attempt < 2) {
+        await new Promise(r => setTimeout(r, 1000));
       }
     }
 
@@ -179,7 +175,9 @@ export async function POST(request: Request) {
       return NextResponse.json(
         { 
           success: false, 
-          message: `API Error: ${errorMsg}` 
+          message: process.env.NODE_ENV === 'development'
+            ? `API Error: ${errorMsg}`
+            : 'Google Sheets submission failed.'
         },
         { status: 502 }
       );
