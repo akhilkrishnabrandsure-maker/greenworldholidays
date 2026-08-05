@@ -1,8 +1,10 @@
 'use client';
 
 import React, { useState } from 'react';
-import { Send, Phone, Calendar, Users, MapPin, Package, MessageSquare } from 'lucide-react';
+import { Send, Phone, Calendar, Users, MapPin, Package, MessageSquare, Loader2 } from 'lucide-react';
 import { contactRepository } from '../repository/contact.repository';
+import { saveEnquiry } from '@/lib/leadService';
+import { useToast } from '@/contexts/ToastProvider';
 
 interface FormData {
   name: string;
@@ -28,6 +30,9 @@ export function ContactForm() {
     travellers: '',
     message: ''
   });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [success, setSuccess] = useState(false);
+  const { showToast } = useToast();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     setFormData(prev => ({
@@ -52,15 +57,44 @@ export function ContactForm() {
     return encodeURIComponent(message);
   };
 
-  const handleWhatsAppSubmit = (e: React.FormEvent) => {
+  const handleWhatsAppSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!formData.name || !formData.phone) {
-      alert("Please fill in at least your Name and Phone number.");
+      showToast("Please fill in at least your Name and Phone number.", "error");
       return;
     }
-    const { whatsapp } = contactRepository.details;
-    const waUrl = `https://wa.me/${whatsapp.replace(/[^0-9]/g, '')}?text=${generateWhatsAppMessage()}`;
-    window.open(waUrl, '_blank');
+
+    setIsSubmitting(true);
+
+    const response = await saveEnquiry({
+      name: formData.name,
+      phone: formData.phone,
+      email: formData.email,
+      destination: formData.destination,
+      package: formData.packageType,
+      pickup: formData.pickupLocation,
+      travelDate: formData.travelDate,
+      travellers: formData.travellers,
+      message: formData.message,
+      source: 'Contact Page'
+    });
+
+    setIsSubmitting(false);
+
+    if (response.success) {
+      showToast("Enquiry saved successfully. Redirecting to WhatsApp...", "success");
+      setSuccess(true);
+      const { whatsapp } = contactRepository.details;
+      const waUrl = `https://wa.me/${whatsapp.replace(/[^0-9]/g, '')}?text=${generateWhatsAppMessage()}`;
+      
+      setTimeout(() => {
+        window.open(waUrl, '_blank');
+        setSuccess(false);
+        setFormData({ name: '', phone: '', email: '', destination: '', packageType: '', pickupLocation: '', travelDate: '', travellers: '', message: '' });
+      }, 1500);
+    } else {
+      showToast(response.message || "There was a problem submitting your enquiry.", "error");
+    }
   };
 
   return (
@@ -101,7 +135,17 @@ export function ContactForm() {
           {/* Form */}
           <div className="lg:col-span-3">
             <div className="bg-white rounded-[2rem] p-8 md:p-10 shadow-2xl border border-gray-100 relative">
-              <form onSubmit={handleWhatsAppSubmit} className="space-y-6 relative z-10">
+              {success ? (
+                <div className="flex flex-col items-center justify-center py-12 text-center h-full min-h-[400px]">
+                  <div className="w-16 h-16 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center mb-6">
+                    <Send className="w-8 h-8" />
+                  </div>
+                  <h3 className="text-2xl font-serif font-bold text-emerald-950 mb-2">Enquiry Submitted!</h3>
+                  <p className="text-gray-600">Redirecting you to WhatsApp...</p>
+                </div>
+              ) : (
+                <fieldset disabled={isSubmitting} className="space-y-6 relative z-10 group">
+                  <form onSubmit={handleWhatsAppSubmit} className="space-y-6">
                 
                 <div className="grid md:grid-cols-2 gap-6">
                   {/* Name */}
@@ -259,10 +303,20 @@ export function ContactForm() {
                 <div className="pt-4 flex flex-col sm:flex-row gap-4">
                   <button
                     type="submit"
-                    className="flex-1 bg-emerald-600 hover:bg-emerald-700 text-white font-semibold py-4 px-8 rounded-xl transition-all duration-300 shadow-lg hover:shadow-xl hover:-translate-y-1 flex items-center justify-center space-x-2"
+                    disabled={isSubmitting}
+                    className="flex-1 bg-emerald-600 hover:bg-emerald-700 disabled:bg-emerald-400 text-white font-semibold py-4 px-8 rounded-xl transition-all duration-300 shadow-lg hover:shadow-xl hover:-translate-y-1 flex items-center justify-center space-x-2"
                   >
-                    <Send className="w-5 h-5" />
-                    <span>Send WhatsApp Enquiry</span>
+                    {isSubmitting ? (
+                      <>
+                        <Loader2 className="w-5 h-5 animate-spin" />
+                        <span>Submitting...</span>
+                      </>
+                    ) : (
+                      <>
+                        <Send className="w-5 h-5" />
+                        <span>Send WhatsApp Enquiry</span>
+                      </>
+                    )}
                   </button>
                   <button
                     type="button"
@@ -272,8 +326,9 @@ export function ContactForm() {
                     Submit via Email
                   </button>
                 </div>
-                
-              </form>
+                  </form>
+                </fieldset>
+              )}
             </div>
           </div>
           

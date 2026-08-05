@@ -2,8 +2,10 @@
 
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { usePathname } from 'next/navigation';
-import { X, MessageCircle, Phone } from 'lucide-react';
+import { X, MessageCircle, Phone, Loader2 } from 'lucide-react';
 import { EnquiryChip } from './EnquiryChip';
+import { saveEnquiry } from '@/lib/leadService';
+import { useToast } from '@/contexts/ToastProvider';
 
 const ENQUIRY_OPTIONS = [
   'Kerala Tour Packages',
@@ -23,8 +25,12 @@ export function FloatingEnquiryPopup() {
   const [isClosing, setIsClosing] = useState(false);
   
   const [name, setName] = useState('');
+  const [phone, setPhone] = useState('');
   const [destination, setDestination] = useState('');
   const [selectedOption, setSelectedOption] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [success, setSuccess] = useState(false);
+  const { showToast } = useToast();
   
   const pathname = usePathname();
   const popupRef = useRef<HTMLDivElement>(null);
@@ -186,7 +192,14 @@ export function FloatingEnquiryPopup() {
     };
   }, [isOpen, closePopup]);
 
-  const handleWhatsApp = () => {
+  const handleWhatsApp = async () => {
+    if (!phone.trim()) {
+      showToast("Please provide a phone number.", "error");
+      return;
+    }
+
+    setIsSubmitting(true);
+
     let message = `Hi Green World Holidays,\n\n`;
     if (name.trim()) {
       message += `My name is ${name.trim()}.\n\n`;
@@ -201,10 +214,33 @@ export function FloatingEnquiryPopup() {
     
     message += `Please share the itinerary, pricing, and availability.\n\nThank you.`;
 
-    markAsContacted();
-    const whatsappUrl = `https://wa.me/918075438808?text=${encodeURIComponent(message)}`;
-    window.open(whatsappUrl, '_blank');
-    closePopup(true);
+    const response = await saveEnquiry({
+      name: name.trim(),
+      phone: phone.trim(),
+      destination: destination.trim(),
+      package: selectedOption,
+      source: 'Floating Enquiry'
+    });
+
+    setIsSubmitting(false);
+
+    if (response.success) {
+      showToast("Enquiry saved successfully. Redirecting to WhatsApp...", "success");
+      setSuccess(true);
+      markAsContacted();
+      const whatsappUrl = `https://wa.me/918075438808?text=${encodeURIComponent(message)}`;
+      setTimeout(() => {
+        window.open(whatsappUrl, '_blank');
+        closePopup(true);
+        setSuccess(false);
+        setName('');
+        setPhone('');
+        setDestination('');
+        setSelectedOption('');
+      }, 1500);
+    } else {
+      showToast(response.message || "Failed to save enquiry. Please try again or call us directly.", "error");
+    }
   };
 
   const handleCall = () => {
@@ -258,56 +294,85 @@ export function FloatingEnquiryPopup() {
           </div>
 
           <div className="space-y-6">
-            {/* Input Fields */}
-            <div className="space-y-3">
-              <input 
-                type="text" 
-                placeholder="Your Name (Optional)"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                className="w-full px-4 py-3 rounded-xl border border-gray-200 bg-white focus:outline-none focus:ring-2 focus:ring-emerald-600 focus:border-transparent transition-all shadow-sm font-outfit"
-              />
-              <input 
-                type="text" 
-                placeholder="Destination (Optional)"
-                value={destination}
-                onChange={(e) => setDestination(e.target.value)}
-                className="w-full px-4 py-3 rounded-xl border border-gray-200 bg-white focus:outline-none focus:ring-2 focus:ring-emerald-600 focus:border-transparent transition-all shadow-sm font-outfit"
-              />
-            </div>
-
-            {/* Chips */}
-            <div>
-              <p className="text-sm font-medium text-gray-700 mb-3 font-outfit">What are you looking for?</p>
-              <div className="flex flex-wrap gap-2">
-                {ENQUIRY_OPTIONS.map(option => (
-                  <EnquiryChip 
-                    key={option}
-                    label={option}
-                    selected={selectedOption === option}
-                    onClick={() => setSelectedOption(option === selectedOption ? '' : option)}
-                  />
-                ))}
+            {success ? (
+              <div className="bg-emerald-50 text-emerald-800 p-6 rounded-2xl text-center">
+                <p className="font-semibold text-lg mb-2">Connecting to WhatsApp...</p>
+                <p className="text-sm">Please wait a moment.</p>
               </div>
-            </div>
+            ) : (
+              <>
+                <fieldset disabled={isSubmitting} className="space-y-6">
+                  {/* Input Fields */}
+                  <div className="space-y-3">
+                    <input 
+                      type="text" 
+                      placeholder="Your Name (Optional)"
+                      value={name}
+                      onChange={(e) => setName(e.target.value)}
+                      className="w-full px-4 py-3 rounded-xl border border-gray-200 bg-white focus:outline-none focus:ring-2 focus:ring-emerald-600 focus:border-transparent transition-all shadow-sm font-outfit"
+                    />
+                    <input 
+                      type="tel" 
+                      placeholder="Your Phone Number *"
+                      required
+                      value={phone}
+                      onChange={(e) => setPhone(e.target.value)}
+                      className="w-full px-4 py-3 rounded-xl border border-gray-200 bg-white focus:outline-none focus:ring-2 focus:ring-emerald-600 focus:border-transparent transition-all shadow-sm font-outfit"
+                    />
+                    <input 
+                      type="text" 
+                      placeholder="Destination (Optional)"
+                      value={destination}
+                      onChange={(e) => setDestination(e.target.value)}
+                      className="w-full px-4 py-3 rounded-xl border border-gray-200 bg-white focus:outline-none focus:ring-2 focus:ring-emerald-600 focus:border-transparent transition-all shadow-sm font-outfit"
+                    />
+                  </div>
 
-            {/* Buttons */}
-            <div className="flex flex-col sm:flex-row gap-3 pt-4">
-              <button 
-                onClick={handleWhatsApp}
-                className="flex-1 bg-emerald-700 hover:bg-emerald-800 text-white px-4 py-3.5 rounded-full font-medium flex items-center justify-center gap-2 transition-all hover:scale-[1.02] active:scale-[0.98] shadow-md font-outfit"
-              >
-                <MessageCircle size={20} />
-                <span>Chat on WhatsApp</span>
-              </button>
-              <button 
-                onClick={handleCall}
-                className="flex-1 bg-white hover:bg-emerald-50 text-emerald-800 border-2 border-emerald-700 px-4 py-3.5 rounded-full font-medium flex items-center justify-center gap-2 transition-all hover:scale-[1.02] active:scale-[0.98] shadow-sm font-outfit"
-              >
-                <Phone size={20} />
-                <span>Call Expert</span>
-              </button>
-            </div>
+                  {/* Chips */}
+                  <div>
+                    <p className="text-sm font-medium text-gray-700 mb-3 font-outfit">What are you looking for?</p>
+                    <div className="flex flex-wrap gap-2">
+                      {ENQUIRY_OPTIONS.map(option => (
+                        <EnquiryChip 
+                          key={option}
+                          label={option}
+                          selected={selectedOption === option}
+                          onClick={() => setSelectedOption(option === selectedOption ? '' : option)}
+                        />
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Buttons */}
+                  <div className="flex flex-col sm:flex-row gap-3 pt-4">
+                    <button 
+                      onClick={handleWhatsApp}
+                      disabled={isSubmitting}
+                      className="flex-1 bg-emerald-700 hover:bg-emerald-800 disabled:bg-emerald-500 text-white px-4 py-3.5 rounded-full font-medium flex items-center justify-center gap-2 transition-all hover:scale-[1.02] active:scale-[0.98] shadow-md font-outfit"
+                    >
+                      {isSubmitting ? (
+                        <>
+                          <Loader2 size={20} className="animate-spin" />
+                          <span>Submitting...</span>
+                        </>
+                      ) : (
+                        <>
+                          <MessageCircle size={20} />
+                          <span>Chat on WhatsApp</span>
+                        </>
+                      )}
+                    </button>
+                    <button 
+                      onClick={handleCall}
+                      className="flex-1 bg-white hover:bg-emerald-50 text-emerald-800 border-2 border-emerald-700 px-4 py-3.5 rounded-full font-medium flex items-center justify-center gap-2 transition-all hover:scale-[1.02] active:scale-[0.98] shadow-sm font-outfit"
+                    >
+                      <Phone size={20} />
+                      <span>Call Expert</span>
+                    </button>
+                  </div>
+                </fieldset>
+              </>
+            )}
           </div>
         </div>
       </div>

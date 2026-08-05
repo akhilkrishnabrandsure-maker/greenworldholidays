@@ -146,6 +146,7 @@ export default function DestinationTemplate({
             description="Our travel experts will create a customized itinerary including houseboats, luxury cabs, and hotel reservations."
             whatsappUrl={getDestinationWhatsAppUrl(destination.name, 'enquire')}
             className="my-16"
+            source="Destination Detail"
           />
 
           {/* Related Destinations */}

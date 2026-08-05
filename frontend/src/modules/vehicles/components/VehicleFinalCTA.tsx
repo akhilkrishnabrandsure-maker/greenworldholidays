@@ -1,16 +1,16 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import { MessageCircle, Phone } from 'lucide-react';
 import { Vehicle } from '../types/vehicle.types';
+import { EnquiryModal } from '@/shared/components/common/EnquiryModal';
 
 interface VehicleFinalCTAProps {
   vehicle: Vehicle;
 }
 
 export function VehicleFinalCTA({ vehicle }: VehicleFinalCTAProps) {
-  const whatsappMessage = `Hi Green World Holidays! I am ready to book the ${vehicle.name} for my Kerala trip. Please assist me.`;
-  const whatsappUrl = `https://wa.me/918075438808?text=${encodeURIComponent(whatsappMessage)}`;
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   return (
     <section className="py-12 sm:py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -34,15 +34,13 @@ export function VehicleFinalCTA({ vehicle }: VehicleFinalCTAProps) {
           </p>
 
           <div className="pt-4 flex flex-col sm:flex-row items-center justify-center gap-4">
-            <a
-              href={whatsappUrl}
-              target="_blank"
-              rel="noopener noreferrer"
+            <button
+              onClick={() => setIsModalOpen(true)}
               className="w-full sm:w-auto bg-emerald-400 hover:bg-emerald-300 text-emerald-950 font-bold px-8 py-4 rounded-full transition-all duration-300 hover:scale-105 shadow-xl flex items-center justify-center space-x-2 text-base"
             >
               <MessageCircle className="w-5 h-5 fill-current" />
               <span>WhatsApp Booking</span>
-            </a>
+            </button>
 
             <a
               href="tel:+918075438808"
@@ -58,6 +56,11 @@ export function VehicleFinalCTA({ vehicle }: VehicleFinalCTAProps) {
           </p>
         </div>
       </div>
+      <EnquiryModal 
+        isOpen={isModalOpen} 
+        onClose={() => setIsModalOpen(false)} 
+        context={{ source: 'Vehicle Detail', vehicle: vehicle.name }} 
+      />
     </section>
   );
 }

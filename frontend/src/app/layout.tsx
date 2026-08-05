@@ -39,14 +39,19 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  if (process.env.NODE_ENV === 'development' && !process.env.GOOGLE_SCRIPT_URL) {
+    console.warn('\n⚠️ Google Sheets Web App URL is not configured.\nPlease add GOOGLE_SCRIPT_URL to .env.local\n');
+  }
   return (
     <html
       lang="en"
       className={`${geistSans.variable} ${geistMono.variable} ${playfairDisplay.variable} ${outfit.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">
-        <Providers>{children}</Providers>
-        <FloatingEnquiryPopup />
+        <Providers>
+          {children}
+          <FloatingEnquiryPopup />
+        </Providers>
       </body>
     </html>
   );
