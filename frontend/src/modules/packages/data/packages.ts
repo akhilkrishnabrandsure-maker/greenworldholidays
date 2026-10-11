@@ -21,7 +21,7 @@ export const mockPackages: TourPackage[] = [
       priceNote: 'per person (min 4 pax)'
     },
     coveredDestinations: ['munnar', 'thekkady', 'alappuzha-backwaters-houseboat', 'marari-beach'],
-    availableVehicles: ['toyota-innova-crysta', 'maruti-ertiga', 'force-urbania'],
+    availableVehicles: ['toyota-innova-crysta', 'maruti-ertiga', 'urbania'],
   },
   {
     id: 'pkg-002',
@@ -43,7 +43,7 @@ export const mockPackages: TourPackage[] = [
       priceNote: 'based on customization'
     },
     coveredDestinations: ['munnar', 'alappuzha-backwaters-houseboat', 'thekkady'],
-    availableVehicles: ['toyota-innova-crysta', 'maruti-swift-dzire'],
+    availableVehicles: ['toyota-innova-crysta', 'maruti-dzire', 'maruti-ertiga'],
   },
   {
     id: 'pkg-003',
@@ -65,7 +65,7 @@ export const mockPackages: TourPackage[] = [
       priceNote: 'per person for large groups'
     },
     coveredDestinations: ['munnar', 'thekkady'],
-    availableVehicles: ['force-urbania', 'toyota-innova-crysta'],
+    availableVehicles: ['urbania', 'toyota-innova-crysta', 'force-traveller'],
   },
   {
     id: 'pkg-004',
@@ -102,7 +102,7 @@ export const mockPackages: TourPackage[] = [
       'Personal expenses (laundry, tips, etc.)'
     ],
     coveredDestinations: ['munnar', 'thekkady', 'alappuzha-backwaters-houseboat'],
-    availableVehicles: ['maruti-ertiga', 'maruti-swift-dzire', 'toyota-innova-crysta'],
+    availableVehicles: ['maruti-ertiga', 'maruti-dzire', 'toyota-innova-crysta'],
     itinerary: [
       {
         dayNumber: 1,

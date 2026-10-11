@@ -1,7 +1,6 @@
 import React from 'react';
 import { ROUTES } from '@/constants/routes';
 import { Destination } from '../types/destination.types';
-import { getDestinationWhatsAppUrl } from '../utils/destination.utils';
 import { PremiumCard } from '@/shared/components/display/PremiumCard';
 
 interface DestinationCardProps {
@@ -20,7 +19,6 @@ export function DestinationCard({ destination, showLearnMore = true }: Destinati
       rating={destination.rating}
       badge="Destination"
       actionText={showLearnMore ? "Learn More" : undefined}
-      actionHref={showLearnMore ? getDestinationWhatsAppUrl(destination.name) : undefined}
     />
   );
 }

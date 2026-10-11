@@ -13,7 +13,7 @@ export function PackageQuickInfo({ tourPackage }: PackageQuickInfoProps) {
       <SpecificationCard 
         icon={Clock} 
         label="Duration" 
-        value={tourPackage.duration} 
+        value="On Request" 
       />
       
       <SpecificationCard 
@@ -25,8 +25,8 @@ export function PackageQuickInfo({ tourPackage }: PackageQuickInfoProps) {
       {tourPackage.pricing && (
         <SpecificationCard 
           icon={Banknote} 
-          label="Starting Price" 
-          value={tourPackage.pricing.startingPrice} 
+          label="Pricing" 
+          value="On Request" 
         />
       )}
       
@@ -34,7 +34,7 @@ export function PackageQuickInfo({ tourPackage }: PackageQuickInfoProps) {
         <SpecificationCard 
           icon={MapPin} 
           label="Destinations" 
-          value={`${tourPackage.coveredDestinations.length} Places`} 
+          value="On Request" 
         />
       )}
     </div>

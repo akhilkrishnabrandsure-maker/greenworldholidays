@@ -1,8 +1,9 @@
 import React from 'react';
 import { AppImage } from './AppImage';
+import { StaticImageData } from 'next/image';
 
 interface GalleryImage {
-  url: string;
+  url: string | StaticImageData;
   alt?: string;
   caption?: string;
 }

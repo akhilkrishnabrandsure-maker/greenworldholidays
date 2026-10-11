@@ -1,11 +1,12 @@
 import { Metadata } from 'next';
+import { StaticImageData } from 'next/image';
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.greenworldholidays.com';
 
 interface SEOProps {
   title: string;
   description: string;
-  image?: string;
+  image?: string | StaticImageData;
   url?: string;
   noIndex?: boolean;
 }
@@ -17,6 +18,11 @@ export function constructMetadata({
   url, 
   noIndex = false 
 }: SEOProps): Metadata {
+  const rawImageUrl = typeof image === 'string' ? image : (image?.src || `${siteUrl}/og-image.jpg`);
+  const imageUrl = rawImageUrl.startsWith('http')
+    ? rawImageUrl
+    : `${siteUrl}${rawImageUrl.startsWith('/') ? '' : '/'}${rawImageUrl}`;
+
   return {
     title,
     description,
@@ -26,7 +32,7 @@ export function constructMetadata({
       url: url ? `${siteUrl}${url}` : siteUrl,
       images: [
         {
-          url: image || `${siteUrl}/og-image.jpg`,
+          url: imageUrl,
           width: 1200,
           height: 630,
         },
@@ -38,7 +44,7 @@ export function constructMetadata({
       card: 'summary_large_image',
       title,
       description,
-      images: [image || `${siteUrl}/og-image.jpg`],
+      images: [imageUrl],
     },
     alternates: {
       canonical: url ? `${siteUrl}${url}` : siteUrl,
@@ -145,19 +151,24 @@ export function generateDestinationListSchema(destinations: DestinationListItemI
 export interface VehicleSchemaInput {
   name: string;
   description: string;
-  image: string;
+  image: string | StaticImageData;
   slug: string;
   category: string;
 }
 
 export function generateVehicleSchema(vehicle: VehicleSchemaInput) {
+  const rawImage = typeof vehicle.image === 'string' ? vehicle.image : vehicle.image?.src;
+  const image = rawImage
+    ? (rawImage.startsWith('http') ? rawImage : `${siteUrl}${rawImage.startsWith('/') ? '' : '/'}${rawImage}`)
+    : `${siteUrl}/og-image.jpg`;
+
   return {
     "@context": "https://schema.org",
     "@type": "Service",
     "serviceType": `${vehicle.category} Rental`,
     "name": vehicle.name,
     "description": vehicle.description,
-    "image": vehicle.image,
+    "image": image,
     "url": `${siteUrl}/vehicles/${vehicle.slug}`,
     "provider": {
       "@type": "TravelAgency",
@@ -172,17 +183,24 @@ export function generateVehicleListSchema(vehicles: VehicleSchemaInput[]) {
     "@context": "https://schema.org",
     "@type": "ItemList",
     "name": "Premium Vehicle Fleet in Kerala",
-    "itemListElement": vehicles.map((vehicle, index) => ({
-      "@type": "ListItem",
-      "position": index + 1,
-      "item": {
-        "@type": "Service",
-        "name": vehicle.name,
-        "description": vehicle.description,
-        "image": vehicle.image,
-        "url": `${siteUrl}/vehicles/${vehicle.slug}`,
-      },
-    })),
+    "itemListElement": vehicles.map((vehicle, index) => {
+      const rawImage = typeof vehicle.image === 'string' ? vehicle.image : vehicle.image?.src;
+      const image = rawImage
+        ? (rawImage.startsWith('http') ? rawImage : `${siteUrl}${rawImage.startsWith('/') ? '' : '/'}${rawImage}`)
+        : `${siteUrl}/og-image.jpg`;
+
+      return {
+        "@type": "ListItem",
+        "position": index + 1,
+        "item": {
+          "@type": "Service",
+          "name": vehicle.name,
+          "description": vehicle.description,
+          "image": image,
+          "url": `${siteUrl}/vehicles/${vehicle.slug}`,
+        },
+      };
+    }),
   };
 }
 

@@ -2,10 +2,11 @@ import React from 'react';
 import Link from 'next/link';
 import { ArrowRight, Star } from 'lucide-react';
 import { AppImage } from './AppImage';
+import { StaticImageData } from 'next/image';
 
 interface PremiumCardProps {
   href: string;
-  image: string;
+  image: string | StaticImageData;
   title: string;
   subtitle?: string;
   description?: string;

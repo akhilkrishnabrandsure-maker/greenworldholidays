@@ -64,13 +64,13 @@ export async function FeaturedPackages() {
                   <div className="flex items-center gap-4 text-xs font-bold text-gray-500 uppercase tracking-wider mb-4">
                     <span className="flex items-center gap-1.5">
                       <Clock className="h-4 w-4 text-luxury-gold-dark" />
-                      {pkg.duration}
+                      On Request
                     </span>
                     <span className="text-gray-300">•</span>
                     <span className="flex items-center gap-1.5">
                       <MapPin className="h-4 w-4 text-luxury-gold-dark" />
                       <span className="truncate max-w-[200px]">
-                        {pkg.coveredDestinations?.map(d => d.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ')).join(' - ')}
+                        On Request
                       </span>
                     </span>
                   </div>
@@ -86,10 +86,10 @@ export async function FeaturedPackages() {
                   <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-6 pt-6 border-t border-gray-100">
                     <div>
                       <span className="block text-[10px] text-gray-500 font-extrabold uppercase tracking-widest mb-1">
-                        Starting From
+                        Pricing
                       </span>
                       <span className="text-xl font-bold text-gray-900">
-                        {pkg.pricing?.startingPrice} <span className="text-sm font-normal text-gray-500">/ person</span>
+                        On Request
                       </span>
                     </div>
                     <Link

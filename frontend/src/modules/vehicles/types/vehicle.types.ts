@@ -12,9 +12,10 @@ export interface Pricing {
   rate: string;
   period: string;
 }
+import { StaticImageData } from 'next/image';
 
 export interface GalleryImage {
-  url: string;
+  url: string | StaticImageData;
   alt: string;
   caption?: string;
   category?: 'Exterior' | 'Interior' | 'Dashboard' | 'Rear Seats' | 'Luggage Space' | string;
@@ -61,8 +62,8 @@ export interface Vehicle {
   name: string;
   category: string;
   
-  image: string;
-  heroImage: string;
+  image: string | StaticImageData;
+  heroImage: string | StaticImageData;
   heroBackdrop?: string;
   gallery?: GalleryImage[];
 

@@ -1,4 +1,8 @@
 import { Vehicle } from '../types/vehicle.types';
+import innovaCrystaFront from '@/assets/innova-crysta-front-view.webp';
+import innovaCrystaInterior from '@/assets/innova-crysta-interior.webp';
+import innovaCrystaDashboard from '@/assets/innova-crysta-dashboard.webp';
+import innovaCrystaBoot from '@/assets/innova-crysta-boot.webp';
 
 export const vehicles: Vehicle[] = [
   {
@@ -22,8 +26,8 @@ export const vehicles: Vehicle[] = [
     slug: 'toyota-innova-crysta',
     name: 'Toyota Innova Crysta',
     category: 'MPV',
-    image: 'https://res.cloudinary.com/dyup8ivlh/image/upload/v1754556513/crysta_a61qcb.jpg',
-    heroImage: 'https://res.cloudinary.com/dyup8ivlh/image/upload/v1754556513/crysta_a61qcb.jpg',
+    image: innovaCrystaFront,
+    heroImage: innovaCrystaFront,
     heroBackdrop: 'https://images.unsplash.com/photo-1544644181-1484b3fdfc62?auto=format&fit=crop&w=2000&q=80',
     seatCapacity: 7,
     luggageCapacity: 5,
@@ -85,10 +89,10 @@ export const vehicles: Vehicle[] = [
       { name: 'Reading Lights', icon: 'sun' }
     ],
     gallery: [
-      { url: 'https://res.cloudinary.com/dyup8ivlh/image/upload/v1754556513/crysta_a61qcb.jpg', alt: 'Toyota Innova Crysta Exterior', caption: 'Exterior View', category: 'Exterior' },
-      { url: 'https://images.unsplash.com/photo-1549399542-7e3f8b79c341?auto=format&fit=crop&w=1000&q=80', alt: 'Toyota Innova Crysta Interior Cabin', caption: 'Luxury Leather Seats', category: 'Interior' },
-      { url: 'https://images.unsplash.com/photo-1563720223185-11003d516935?auto=format&fit=crop&w=1000&q=80', alt: 'Dashboard & Cockpit', caption: 'Premium Dashboard', category: 'Dashboard' },
-      { url: 'https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=1000&q=80', alt: 'Spacious Luggage Boot', caption: 'Ample Luggage Space', category: 'Luggage Space' }
+      { url: innovaCrystaFront, alt: 'Toyota Innova Crysta Exterior View', caption: 'Exterior View', category: 'Exterior' },
+      { url: innovaCrystaInterior, alt: 'Toyota Innova Crysta Luxury Leather Seats', caption: 'Luxury Leather Seats', category: 'Interior' },
+      { url: innovaCrystaDashboard, alt: 'Toyota Innova Crysta Premium Dashboard', caption: 'Premium Dashboard', category: 'Dashboard' },
+      { url: innovaCrystaBoot, alt: 'Toyota Innova Crysta Ample Luggage Space', caption: 'Ample Luggage Space', category: 'Luggage Space' }
     ],
     faqs: [
       { question: 'Is fuel included in the daily rental price?', answer: 'Yes, our premium packages include all fuel costs for the agreed itinerary. There are no hidden surcharges based on mileage within the standard tour route.' },

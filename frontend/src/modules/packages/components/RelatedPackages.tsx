@@ -44,15 +44,15 @@ export function RelatedPackages({ packages, title = "Other Packages You Might Li
               
               <div className="flex items-center text-gray-600 mb-4 text-sm font-medium">
                 <Clock className="h-4 w-4 mr-1.5" />
-                {pkg.duration}
+                On Request
               </div>
 
               {pkg.pricing && (
                 <div className="mt-auto flex items-center justify-between border-t border-gray-50 pt-4">
                   <div className="flex flex-col">
-                    <span className="text-xs text-gray-500 uppercase tracking-wider font-semibold">Starting from</span>
+                    <span className="text-xs text-gray-500 uppercase tracking-wider font-semibold">Pricing</span>
                     <span className="text-lg font-bold text-emerald-600 flex items-center">
-                      {pkg.pricing.startingPrice}
+                      On Request
                     </span>
                   </div>
                   <div className="text-emerald-600 group-hover:translate-x-1 transition-transform bg-emerald-50 p-2 rounded-full">

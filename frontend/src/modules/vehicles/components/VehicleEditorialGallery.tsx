@@ -4,11 +4,12 @@ import React, { useState } from 'react';
 import { Maximize2, X, ChevronLeft, ChevronRight } from 'lucide-react';
 import { GalleryImage } from '../types/vehicle.types';
 import { AppImage } from '@/shared/components/display/AppImage';
+import { StaticImageData } from 'next/image';
 
 interface VehicleEditorialGalleryProps {
   gallery?: GalleryImage[];
   vehicleName: string;
-  defaultImage: string;
+  defaultImage: string | StaticImageData;
 }
 
 export function VehicleEditorialGallery({
